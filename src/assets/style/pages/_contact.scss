@@ -1,0 +1,20 @@
+.app_contact {
+  .submit_ticket-btn {
+    padding: 8px 80px;
+    font-size: 22px;
+  }
+  &-icons {
+    li {
+      a {
+        color: $mainColor !important;
+        border-color: $mainColor !important;
+      }
+    }
+  }
+  @media (max-width: "500px") {
+    .submit_ticket-btn {
+      padding: 8px 50px;
+      font-size: 16px;
+    }
+  }
+}

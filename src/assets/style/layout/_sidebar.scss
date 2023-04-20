@@ -1,0 +1,21 @@
+.app_sidebar {
+  background-color: $mainColor;
+  color: $white;
+  &-logo {
+    color: $white !important;
+  }
+  &-auth {
+    a {
+      background-color: $white;
+      border-color: $mainColor;
+      color: $mainColor;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        border-color: $white;
+        background-color: transparent;
+        color: $white;
+      }
+    }
+  }
+}

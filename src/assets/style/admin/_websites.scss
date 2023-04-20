@@ -1,0 +1,13 @@
+.admin_websites {
+  &-box {
+    .bordered_icons li a {
+      color: $mainColor;
+      border-color: $mainColor;
+    }
+    &:first-child {
+      li {
+        font-size: 3rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+.app_blog {
+  .blog_like {
+    &.clicked {
+      color: $mainColor;
+    }
+  }
+}

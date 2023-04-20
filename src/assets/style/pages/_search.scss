@@ -1,0 +1,62 @@
+.app_search {
+  &-results_count {
+    color: $lightColor;
+  }
+  &-filter_list {
+    border-color: $fontLightGrey;
+    li {
+      margin: 0;
+      border-color: $mainColor;
+      position: relative;
+      @media (min-width: "767px") {
+        &:first-child {
+          padding-left: 2rem;
+        }
+      }
+      &.active {
+        color: $mainColor;
+        @media (max-width: "767px") {
+          &:after {
+            display: block;
+          }
+        }
+      }
+      &:last-child {
+        display: none;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        right: 0;
+        width: 1px;
+        height: 19px;
+        background-color: $mainColor;
+        @media (max-width: "767px") {
+          width: 100%;
+          height: 1px;
+          right: 0;
+          top: 18px;
+          display: none;
+        }
+      }
+    }
+  }
+  &-input {
+    input {
+      border-color: $black;
+    }
+    span {
+      &:first-child {
+        color: $mainColor;
+      }
+      &:nth-of-type(2) {
+        color: $mainColor;
+        border-color: $black;
+      }
+      &:last-child {
+        color: #8b8585;
+      }
+    }
+  }
+}

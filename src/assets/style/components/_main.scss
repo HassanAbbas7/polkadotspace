@@ -1,0 +1,20 @@
+.app_main {
+  h1 {
+    span {
+      color: $mainColor;
+    }
+  }
+  form {
+    input {
+      border-color: $black;
+    }
+    span {
+      &:first-child {
+        color: $mainColor;
+      }
+      &:last-child {
+        color: #8b8585;
+      }
+    }
+  }
+}

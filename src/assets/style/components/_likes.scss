@@ -1,0 +1,25 @@
+.app_likes {
+  box-shadow: 0px 4px 11px rgba($mainColor, 0.5);
+  background-color: rgba($white, 0.9);
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+  &-box {
+    box-shadow: 0px 4px 6px rgba($black, 0.35);
+
+    background-color: $white;
+    @media (min-width: "768px") {
+      filter: drop-shadow(0px 0px 15px rgba(230, 0, 122, 0.45));
+    }
+    img {
+      border-color: $mainColor;
+    }
+    h3 {
+      span:last-child {
+        color: $lightColor;
+      }
+    }
+    div {
+      color: $mainColor;
+    }
+  }
+}

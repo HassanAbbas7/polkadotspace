@@ -1,0 +1,22 @@
+.app_accountChange {
+  img {
+    border-color: $mainColor;
+  }
+  .edit_pen {
+    box-shadow: 0px 4px 4px rgba(230, 0, 122, 0.4);
+    color: $mainColor;
+  }
+
+  .wallet {
+    &::placeholder {
+      color: #7c7c7c;
+    }
+  }
+  .main_btn {
+    padding: 12px 30px !important;
+    font-size: 20px !important;
+    @media (min-width: "768px") {
+      padding: 16px 80px !important;
+    }
+  }
+}

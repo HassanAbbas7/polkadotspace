@@ -1,0 +1,38 @@
+.app_profile {
+  input {
+    border-color: $black;
+    &::placeholder {
+      color: $black;
+    }
+    filter: drop-shadow(0px 4px 4px rgba($black, 0.25));
+  }
+  &-verify_btn {
+    button {
+      padding: 12px 50px;
+      font-size: 20px;
+      color: $black;
+      border-color: $black;
+      box-shadow: 0px 0px 20px rgba($mainColor, 0.4);
+      @media (max-width: "1300px") {
+        padding: 12px 20px;
+      }
+      @media (max-width: "500px") {
+        padding: 12px 20px;
+        font-size: 17px;
+      }
+    }
+  }
+
+  .connected {
+    &::placeholder {
+      color: #7c7c7c;
+    }
+  }
+  .main_btn {
+    padding: 12px 86px !important;
+    font-size: 20px !important;
+    @media (min-width: "768px") {
+      padding: 12px 120px !important;
+    }
+  }
+}

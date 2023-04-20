@@ -1,0 +1,43 @@
+.app_navbar {
+  &-items {
+    &_language {
+      background-color: $white;
+      ul {
+        background-color: $white;
+        box-shadow: 0px 20px 20px $fontLightGrey;
+        li {
+          &:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+    &_login {
+      a {
+        color: $black;
+        border-color: $black;
+      }
+    }
+    &_favourites {
+      a {
+        position: relative;
+        span {
+          font-size: 12px;
+          font-weight: 500;
+          color: $black;
+          width: 17px;
+          height: 17px;
+          background-color: #d9d9d9;
+          position: absolute;
+          top: 10px;
+          right: -10px;
+          border-radius: 50%;
+        }
+      }
+    }
+    &_bars,
+    &_favourites {
+      color: $mainColor;
+    }
+  }
+}

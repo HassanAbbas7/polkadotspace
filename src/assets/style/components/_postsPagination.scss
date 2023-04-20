@@ -1,0 +1,22 @@
+.app_pagination {
+  * {
+    border-color: $black;
+  }
+  svg.css-g2z002-MuiSvgIcon-root-MuiPaginationItem-icon {
+    font-size: 50px;
+    @media (max-width: "767px") {
+      font-size: 20px;
+    }
+  }
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    font-size: 30px;
+    font-weight: 500;
+    @media (max-width: "767px") {
+      font-size: 20px;
+    }
+  }
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: transparent;
+    color: $mainColor;
+  }
+}

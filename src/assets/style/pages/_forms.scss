@@ -1,0 +1,44 @@
+.app_forms {
+  box-shadow: 0px 0px 10px rgba($mainColor, 0.6);
+  &-form {
+    input,
+    textarea {
+      border-color: $mainColor;
+    }
+    textarea {
+      resize: none;
+    }
+    .form_btns button,
+    .form_btns a {
+      padding: 10px 10px;
+      font-size: 22px;
+      border-radius: 60px;
+      border: 2px solid $mainColor;
+      @media (max-width: "600px") {
+        padding: 10px 10px;
+        font-size: 15px;
+      }
+
+      @media (min-width: "600px") and (max-width: "767px") {
+        padding: 10px 42px;
+        font-size: 15px;
+      }
+    }
+    a.btn {
+      color: $black;
+      border: 2px solid $black;
+    }
+    .form_eye {
+      color: $mainColor;
+    }
+  }
+  .forgot_email {
+    a {
+      border: none;
+      @media (max-width: "767px") {
+        padding: 0;
+        font-size: 15px;
+      }
+    }
+  }
+}
