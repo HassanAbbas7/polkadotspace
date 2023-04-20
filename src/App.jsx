@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import AddArticle from "./pages/AddArticle";
+import Main from "./components/Main";
 
 // Admin Pages
 import Users from "./admin/Users";

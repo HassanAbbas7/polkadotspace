@@ -121,15 +121,14 @@ const Search = ({ value, setValue, handleValue }) => {
         });
         const getData = await res.json();
         setArticles(getData["Your data"]);
+
+        setLoading(false);
   
     };
 
   useEffect(() => {
     getAllArticles(searchValue);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
   }, [searchValue, page, size, checkedValues]);
 
   return (
@@ -185,7 +184,7 @@ const Search = ({ value, setValue, handleValue }) => {
         <Filter handleCheckboxChange={handleCheckboxChange} checkedValues={checkedValues} categoryList={categoryList}/>
       </div>
       <div>
-        {articles.length > 0 ? (
+        {articles.length == 0 ? (
           loading ? (
             <Box
               sx={{
@@ -197,16 +196,16 @@ const Search = ({ value, setValue, handleValue }) => {
               <CircularProgress />
             </Box>
           ) : (
-            filteredArticles?.map((article, index) => (
-              <div key={index}>
-                <FavouritePost filterText={filterText} dates={[minDate, maxDate]} article={article} activeItem={activeItem}/>
-              </div>
-            ))
-          )
-        ) : (
-          <div className="mt-16 text-center text-slate-500 text-[25px]">
+            <div className="mt-16 text-center text-slate-500 text-[25px]">
             No articles Found
           </div>
+          )
+        ) : (
+          filteredArticles?.map((article, index) => (
+            <div key={index}>
+              <FavouritePost filterText={filterText} dates={[minDate, maxDate]} article={article} activeItem={activeItem}/>
+            </div>
+          ))
         )}
       </div>
       <div>
