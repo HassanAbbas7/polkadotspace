@@ -18,7 +18,6 @@ const Likes = ({ likesRef, showLikes, setShowLikes, id }) => {
   const [idk, setIdk] = useState(1);
 
   const getUsers = async ()=>{
-      const token = getNewToken()
       const res = await fetch("https://stken99.pythonanywhere.com/get_fav_users/1", {
         method: 'GET',
   headers: {
