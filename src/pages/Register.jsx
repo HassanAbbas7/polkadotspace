@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { REGISTER_URL } from "../commons/constant";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} size="xs" />;
 const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} size="xs" />;
@@ -11,47 +12,81 @@ const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} size="xs" />;
 const Register = () => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [password, setPassword] = useState("")
+    const [password2, setPassword2] = useState("")
   const navigate = useNavigate();
 
-  const submitRegister = async (e) => {
-    e.preventDefault();
-    console.log(`register button clicked!`);
-    const first_name = e.target.first_name.value;
-    const last_name = e.target.last_name.value;
-    const email = e.target.email.value;
-    const password1 = e.target.password1.value;
-    const password2 = e.target.password2.value;
-    const data = { first_name, last_name, email, password: password1 };
-    console.log(`body: `, data);
+  // const submitRegister = async (e) => {
+  //   e.preventDefault();
+  //   console.log(`register button clicked!`);
+  //   const first_name = e.target.first_name.value;
+  //   const last_name = e.target.last_name.value;
+  //   const email = e.target.email.value;
+  //   const password1 = e.target.password1.value;
+  //   const password2 = e.target.password2.value;
+  //   const data = { first_name, last_name, email, password: password1 };
+  //   console.log(`body: `, data);
 
-    if (password1 === password2) {
-      fetch(`${REGISTER_URL}`, {
-        method: "POST",
-        headers: {
-          // "Accept": "application/json text/plain",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => {
-          console.log(`register res: `, res);
-          if (res.status === 201) {
-            toast.success("Successfully registered!");
-            navigate("/pages/login");
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log(`register data: `, data);
-        })
-        .catch((err) => {
-          console.log(`register err: `, err);
-          toast.error("Registration failed!");
-        });
-    } else {
-      toast.warn("Password didn't match");
+  //   if (password1 === password2) {
+  //     fetch(`${REGISTER_URL}`, {
+  //       method: "POST",
+  //       headers: {
+  //         // "Accept": "application/json text/plain",
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //       .then((res) => {
+  //         console.log(`register res: `, res);
+  //         if (res.status === 201) {
+  //           toast.success("Successfully registered!");
+  //           navigate("/pages/login");
+  //         }
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         console.log(`register data: `, data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(`register err: `, err);
+  //         toast.error("Registration failed!");
+  //       });
+  //   } else {
+  //     toast.warn("Password didn't match");
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== password2){
+        toast.warn("Both passwords should match!")
+        return
     }
-  };
+    
+    try {
+        const response = await axios.post(`${REGISTER_URL}`, {
+            "email": email,
+            "first_name": firstName,
+            "last_name": lastName,
+            "password": password,
+            "is_active": true
+                })
+
+        if ((response.status === 201) || (response.status === 200)) {
+            toast.success("User Created Successfully!")
+            navigate("/pages/login");
+        }
+        else {
+            toast.error("Something went wrong")
+            toast.error(response.status)
+        }
+    } catch (error) {
+        toast.error(error)
+    }
+}
 
   return (
     <div className="app_forms w-12/12 lg:w-9/12 xl:w-8/12 2xl:w-7/12 lg:mx-auto m-15 py-12 px-4 sm:px-10 md:px-20 rounded-[30px] bg-white">
@@ -61,12 +96,13 @@ const Register = () => {
         </h2>
         <form
           className="app_forms-form md:mt-[40px] text-[12px] md:text-[18px]"
-          onSubmit={submitRegister}
+          onSubmit={handleSubmit}
         >
           <input
             type="text"
             name="first_name"
             required
+            value={firstName} onChange={(e) => setFirstName(e.target.value)}
             className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
             placeholder="User Name"
           />
@@ -74,6 +110,7 @@ const Register = () => {
             type="text"
             name="last_name"
             required
+            value={lastName} onChange={(e) => setLastName(e.target.value)}
             className="w-full border-2 rounded-[46px] py-3 indent-6 my-[20px]"
             placeholder="User Last Name"
           />
@@ -81,6 +118,7 @@ const Register = () => {
             type="email"
             name="email"
             required
+            value={email} onChange={(e) => setEmail(e.target.value)}
             className="w-full border-2 rounded-[46px] py-3 indent-6"
             placeholder="User email"
           />
@@ -89,6 +127,7 @@ const Register = () => {
               type={`${visiblePassword ? "text" : "password"}`}
               name="password1"
               required
+              value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full border-2 rounded-[46px] py-3 indent-6 my-[20px]"
               placeholder="Password"
             />
@@ -104,6 +143,7 @@ const Register = () => {
               type={`${visibleConfirmPassword ? "text" : "password"}`}
               name="password2"
               required
+              value={password2} onChange={(e) => setPassword2(e.target.value)}
               className="w-full border-2 rounded-[46px] py-3 indent-6"
               placeholder="Confirm  Password"
             />

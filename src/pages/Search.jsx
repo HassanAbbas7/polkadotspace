@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, Navigate, useNavigate } from "react-router-dom";
 // import PostComponent from "../components/PostComponent";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -9,36 +9,17 @@ import Filter from "../components/Filter";
 import { DATA_SEARCH_URL, REFRESH_TOKEN_URL } from "../commons/constant";
 import FavouritePost from "../components/FavouritePost";
 import axios from "axios";
-
-
-
-const getNewToken = async () => {
-  console.log(localStorage.getItem("refreshToken"));
-  try {
-      const res = await axios.post(REFRESH_TOKEN_URL, {
-             "refresh": localStorage.getItem("refreshToken")
-                  })
-      const data = await res.data;
-console.log(data);
-const token = data.access;
-localStorage.setItem("accessToken", token);
-return token;
-  }
-  catch (e){
-    console.log(e);
-    alert("please log in again!");
-      // window.location.href = '/login';
-  }
-
-};
+import { toast } from "react-toastify";
 
 
 
 
 
 const Search = ({ value, setValue, handleValue }) => {
+
+  const navigate = useNavigate();
+
   const [filterText, setFilterText] = useState("All");
-  // Adding Active Class Link To The Filter
   const filterList = ["All", "Image", "Videos", ""];
   const categoryList = [
     "BTC",
@@ -53,6 +34,29 @@ const Search = ({ value, setValue, handleValue }) => {
   const [minDate, setMinDate] = useState();
   const [maxDate, setMaxDate] = useState();
   const [searchValue, setSearchValue] = useState(searchParams.get("searchKey"));
+  
+const getNewToken = async () => {
+  console.log(localStorage.getItem("refreshToken"));
+  try {
+      const res = await axios.post(REFRESH_TOKEN_URL, {
+             "refresh": localStorage.getItem("refreshToken")
+                  })
+      const data = await res.data;
+console.log(data);
+const token = data.access;
+localStorage.setItem("accessToken", token);
+return token;
+  }
+  catch (e){
+    console.log(e);
+    toast.warn("Session Expired, Please sign in again!");
+    setTimeout(()=>{
+      navigate("/pages/login");
+    }, 2000);
+  }
+
+};
+
 
   const handleItemClick = (item) => {
     setActiveItem(item);

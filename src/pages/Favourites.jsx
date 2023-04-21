@@ -1,74 +1,108 @@
 import React, { useRef, useState, useEffect } from "react";
-import { GET_ALL_ARTICLE_URL } from "../commons/constant";
+import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, GET_FAV_ARTICLES } from "../commons/constant";
 
 import FavouritePost from "../components/FavouritePost";
 import PostsPagination from "../components/PostsPagination";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+
+
+
+
+
+const getNewToken = async () => {
+  console.log(localStorage.getItem("refreshToken"));
+  try {
+      const res = await axios.post(REFRESH_TOKEN_URL, {
+             "refresh": localStorage.getItem("refreshToken")
+                  })
+      const data = await res.data;
+console.log(data);
+const token = data.access;
+localStorage.setItem("accessToken", token);
+return token;
+  }
+  catch (e){
+    console.log(e);
+    alert("please log in again!");
+      // window.location.href = '/login';
+  }
+
+};
+
 
 const Favourites = () => {
-  const [filterText, setFilterText] = useState("All");
+  // const [filterText, setFilterText] = useState("All");
+  const [activeItem, setActiveItem] = useState("All")
   // Adding Active Class Link To The Filter
   const filterList = ["All", "Image", "Videos", "Articles", ""];
   const filterListRef = useRef(null);
 
-  const addActiveClass = (e) => {
-    const filterListChildren = Array.from(filterListRef.current.children);
-    filterListChildren.forEach((child) => {
-      if (!child.classList.contains("active")) {
-        e.target.classList.add("active");
-        setFilterText(e.target.textContent);
-      } else {
-        child.classList.remove("active");
-      }
-    });
+  // const addActiveClass = (e) => {
+  //   const filterListChildren = Array.from(filterListRef.current.children);
+  //   filterListChildren.forEach((child) => {
+  //     if (!child.classList.contains("active")) {
+  //       e.target.classList.add("active");
+  //       setFilterText(e.target.textContent);
+  //     } else {
+  //       child.classList.remove("active");
+  //     }
+  //   });
+  // };
+
+  const handleItemClick = (item) => {
+    setActiveItem(item);
   };
 
-  const renderFilterList = () => {
-    return filterList.map((filterText, i) => {
-      return (
-        <React.Fragment key={i}>
-          <li
-            className={`cursor-pointer md:px-10 ${
-              filterText === "All" ? "active" : ""
-            }`}
-            onClick={(e) => addActiveClass(e)}
-          >
-            {filterText}
-          </li>
-        </React.Fragment>
-      );
-    });
-  };
 
-  const [articles, setAritcles] = useState([]);
+  // const renderFilterList = () => {
+  //   return filterList.map((filterText, i) => {
+  //     return (
+  //       <React.Fragment key={i}>
+  //         <li
+  //           className={`cursor-pointer md:px-10 ${
+  //             filterText === "All" ? "active" : ""
+  //           }`}
+  //           onClick={(e) => addActiveClass(e)}
+  //         >
+  //           {filterText}
+  //         </li>
+  //       </React.Fragment>
+  //     );
+  //   });
+  // };
+
+  const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const getAllArticles = (page, size) => {
-    fetch(`${GET_ALL_ARTICLE_URL}?page=${page}&size=${size}`, {
-      method: "GET",
-      headers: {
-        // "Accept": "application/json text/plain",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setAritcles(data?.articles);
-        setTotalCount(data?.total_elements ? data.total_elements : 0);
-      })
-      .catch((err) => {
-        console.log(`err: `, err);
+
+
+
+  const getAllArticles = async () => {
+  
+    const token = await getNewToken();
+      const res = await fetch(`${GET_FAV_ARTICLES}`, {
+        method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+    'Content-Type': 'application/json'
+  }
       });
+      const getData = await res.json();
+      setArticles(getData["Your data"]);
+      setLoading(false);
+
   };
 
-  useEffect(() => {
-    getAllArticles(page, size);
-  }, [page, size]);
 
-  useEffect(() => {}, [articles]);
+  useEffect(()=>{
+    getAllArticles();
+    setLoading(true);
+  }, [activeItem])
 
   return (
     <div className="app_favourites">
@@ -79,24 +113,44 @@ const Favourites = () => {
         className="app_search-filter_list flex justify-between items-start w-[320px] text-[12px] md:text-[25px] font-[500] pr-[79px] border-b-[1px] md:border-0"
         ref={filterListRef}
       >
-        {renderFilterList()}
+        {/* {renderFilterList()} */}
+        <li className={`cursor-pointer md:px-10 ${activeItem === "All" ? "active" : ""}` } onClick={() => handleItemClick("All")}>All</li>
+      <li className={`cursor-pointer md:px-10 ${activeItem === "Image" ? "active" : ""}`}  onClick={() => handleItemClick("Image")}>Image</li>
+      <li className={`cursor-pointer md:px-10 ${activeItem === "Videos" ? "active" : ""}`} onClick={() => handleItemClick("Videos")}>Videos</li>
+      <li className="cursor-pointer md:px-10"> </li>
+
       </ul>
 
-      <div>
+      {/* <div>
         {articles?.map((article, index) => (
           <div key={index}>
             <FavouritePost filterText={filterText} article={article} />
           </div>
         ))}
-      </div>
+      </div> */}
       <div>
-        {articles.length > 0 && (
-          <PostsPagination
-            type="Articles"
-            totalCount={totalCount}
-            setPage={setPage}
-            setSize={setSize}
-          />
+        {articles?.length == 0 ? (
+          loading ? (
+            <Box
+              sx={{
+                marginTop: "5rem",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <div className="mt-16 text-center text-slate-500 text-[25px]">
+            No articles Found
+          </div>
+          )
+        ) : (
+          articles?.map((article, index) => (
+            <div key={index}>
+              <FavouritePost article={article} activeItem={activeItem}/>
+            </div>
+          ))
         )}
       </div>
     </div>

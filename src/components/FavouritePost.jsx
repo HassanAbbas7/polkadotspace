@@ -12,6 +12,7 @@ import {
   CREATE_UPDATE_CLAP_URL,
   CREATE_UPDATE_FAV_URL,
   GET_CLAP_BY_USER_ARTICLE_ID_URL,
+  GET_USERS_BY_ARTICLE_ID,
   TRANSLATE_ARTICLE_URL,
 } from "../commons/constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,9 +41,11 @@ const facebookIcon = <FontAwesomeIcon icon={faFacebookF} />;
 const twitterIcon = <FontAwesomeIcon icon={faTwitter} />;
 
 const FavouritePost = ({ filterText, article, activeItem, dates }) => {
-  const isValidDate = (article.TimeStamp > dates[0]) && (article.TimeStamp < dates[1]);
-  const datesAreNotNull = (dates[0] && dates[1]);
-  if (!isValidDate && datesAreNotNull) return;
+  if (dates){
+    const isValidDate = (article.TimeStamp > dates[0]) && (article.TimeStamp < dates[1]);
+    const datesAreNotNull = (dates[0] && dates[1]);
+    if (!isValidDate && datesAreNotNull) return;
+  }
   console.log(article);
   const [articleObj, setAritcleObj] = useState(article);
   const [showLikes, setShowLikes] = useState(false);
@@ -340,6 +343,8 @@ const FavouritePost = ({ filterText, article, activeItem, dates }) => {
                 likesRef={likesRef}
                 showLikes={showLikes}
                 setShowLikes={setShowLikes}
+                id={article.id}
+                link = {GET_USERS_BY_ARTICLE_ID+article.id}
               />
             ) : (
               ""
