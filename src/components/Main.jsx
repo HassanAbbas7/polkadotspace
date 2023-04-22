@@ -67,7 +67,7 @@ const Main = ({ value, setValue, handleValue }) => {
               // handleValue={handleValue}
             />
             <Link
-              to={`/pages/search?searchKey=${searchText}`}
+              to={localStorage.getItem("loggedin") ? `/pages/search?searchKey=${searchText}`:`/pages/login`}
               className="main_btn mt-8 text-[15px] md:text-[25px] px-[85px] md:px-[150px]"
             >
               Search
