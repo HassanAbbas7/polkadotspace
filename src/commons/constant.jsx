@@ -9,6 +9,7 @@ export const GET_ALL_USER_URL = `${BASE_URL}/auth/api/v1/user/all`;
 export const GET_MYSELF_USER_URL = `${BASE_URL}/auth/api/v1/user/me`;
 export const UPDATE_MYSELF_USER_URL = `${BASE_URL}/auth/api/v1/user/update/me`;
 export const GET_FAV_ARTICLES = `${BASE_URL}/get_fav`
+export const GET_USER_DATA = `${BASE_URL}/get_user_data`
 
 
 export const GET_MY_PROFILE_URL = `${BASE_URL}/auth/api/v1/profile/me`;

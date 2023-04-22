@@ -4,9 +4,33 @@ import { Link } from "react-router-dom";
 
 import SearchBar from "../components/SearchBar";
 
+
+
+
+const setName = async () => {
+  
+      const response = await axios.post(GET_USER_DATA, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+          'Content-Type': 'application/json'
+        }
+              })
+
+      if (response.status == 200) {
+          localStorage.setItem('first_name', response.data.first_name);
+          localStorage.setItem('last_name', response.data.last_name);
+  }
+     
+}
+
+
+
+
 const Main = ({ value, setValue, handleValue }) => {
   const [searchText, setSearchText] = useState("");
   console.log(`search text: `, searchText);
+  if (!localStorage.getItem('loggedIn')) setName();
+
   // const renderButtons = () => {
   //   if (value) {
   //     return (

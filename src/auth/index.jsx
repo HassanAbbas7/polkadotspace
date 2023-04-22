@@ -1,7 +1,7 @@
 
 
 export const isLoggedIn = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('loggedin');
     if (token) {
         return true
     }
@@ -48,8 +48,7 @@ export const isSuperUser = () => {
 
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
+    localStorage.clear()
     window.location.pathname = "/"
 
 }
