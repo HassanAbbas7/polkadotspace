@@ -20,7 +20,7 @@ export const setUserData = (obj) => {
 
 
 export const getToken = () => {
-    return localStorage.getItem('token');
+    return localStorage.getItem('access');
 }
 
 

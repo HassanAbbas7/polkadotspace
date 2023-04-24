@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import SearchBar from "../components/SearchBar";
+import {GET_USER_DATA} from "../commons/constant";
+import axios from "axios";
 
 
 
 
 const setName = async () => {
-  
-      const response = await axios.post(GET_USER_DATA, {
+      const response = await axios.get(GET_USER_DATA, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
           'Content-Type': 'application/json'
@@ -19,6 +20,10 @@ const setName = async () => {
       if (response.status == 200) {
           localStorage.setItem('first_name', response.data.first_name);
           localStorage.setItem('last_name', response.data.last_name);
+          localStorage.setItem('email', response.data.email);
+  }
+  else{
+    alert(response.status)
   }
      
 }

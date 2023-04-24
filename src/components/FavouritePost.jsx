@@ -251,11 +251,13 @@ const FavouritePost = ({ filterText, article, activeItem, dates }) => {
               }
               </div>
               </div>
-          : <p
+          : (
+            activeItem === "Videos"? "No video found for this post!" :
+            (<p
             className={`text-[10px] md:text-[16px] font-[400] w-6/6 break-all h-[70px] overflow-hidden`}
           >
             {articleObj?.Description}
-          </p>}
+          </p>))}
           
           <ul
             className={`bordered_icons flex col-span-2 text-center relative text-[15px] md:text-[25px] ${

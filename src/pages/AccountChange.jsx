@@ -7,6 +7,7 @@ import person from "../assets/images/person.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 // const penIcon = <FontAwesomeIcon icon={faPen} />;
 
@@ -19,8 +20,6 @@ const AccountChange = () => {
   const [first_name, setFirstname] = useState("");
   const [last_name, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [wallet, setWallet] = useState("");
-  const [password, setPassword] = useState("");
 
   const changeFileHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -34,55 +33,108 @@ const AccountChange = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    console.log(`register button clicked!`);
-    const formData = new FormData();
-    formData.append("first_name", first_name);
-    formData.append("last_name", last_name);
-    formData.append("email", email);
-    formData.append("wallet", wallet);
-    formData.append("password", password);
 
-    if (isSelected) {
-      formData.append("image", selectedFile);
-    }
 
-    console.log("formData: ", formData);
-
-    fetch(`${UPDATE_MYSELF_USER_URL}`, {
-      method: "PUT",
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: formData,
-    })
-      .then((res) => {
-        console.log(`user update res: `, res);
-        if (res.status === 200) {
-          toast.success("Successfully updated profile!");
+    // fetch(`${UPDATE_MYSELF_USER_URL}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     Authorization: `Bearer ${getToken()}`,
+    //   },
+    //   body: formData,
+    // })
+    //   .then((res) => {
+    //     console.log(`user update res: `, res);
+    //     if (res.status === 200) {
+    //       toast.success("Successfully updated profile!");
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     if (data?.email) {
+    //       setUserData(data);
+    //       setUser(data);
+    //     }
+    //     console.log(`user update data: `, data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(`user update err: `, err);
+    //     toast.error("Profile update failed!");
+    //   });
+    //------------------------------------------------------------------------------------
+    try {
+      const response = await axios.patch(
+        UPDATE_MYSELF_USER_URL,
+        {
+          email: email,
+          first_name: first_name,
+          last_name: last_name
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          },
         }
-        return res.json();
-      })
-      .then((data) => {
-        if (data?.email) {
-          setUserData(data);
-          setUser(data);
-        }
-        console.log(`user update data: `, data);
-      })
-      .catch((err) => {
-        console.log(`user update err: `, err);
-        toast.error("Profile update failed!");
-      });
+      );
+
+      if ((response.status === 201) || (response.status === 200)) {
+          localStorage.setItem("first_name", first_name);
+          localStorage.setItem("last_name", last_name);
+          localStorage.setItem("email", email);
+          toast.success("User Information updated successfully!");
+      }
+      else {
+          toast.error("Something went wrong")
+          toast.error(response.status)
+      }
+  } catch (error) {
+      toast.error(error)
+  }
+  //----------------------------------------------------------------
+//   fetch(UPDATE_MYSELF_USER_URL, {
+//   method: 'PATCH',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+//   },
+//   body: JSON.stringify({
+//           email: "test@gmail.com",
+//           first_name: "New",
+//           last_name: "Name"
+//   })
+// })
+// .then(response => {
+//   if (!response.ok) {
+//     throw new Error('Network response was not ok');
+//   }
+//   return response.json();
+// })
+// .then(data => {
+//   console.log(data);
+// })
+// .catch(error => {
+//   console.error('There was a problem with the fetch operation:', error);
+// });
+
+
+  //----------------------------------------------------------
+//   const res = await fetch(`${UPDATE_MYSELF_USER_URL}`, {
+//     method: 'PATCH',
+//     body:{
+
+//     },
+// headers: {
+// 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+// 'Content-Type': 'application/json'
+// }
+//   });
+//   const getData = await res.json();
+//   setArticles(getData["Your data"]);
   };
 
   useEffect(() => {
-    const userData = getUserData();
-    setFirstname(userData?.first_name);
-    setLastname(userData?.last_name);
-    setEmail(userData?.email);
-    setWallet(userData?.profile?.wallet);
-    setUser(userData);
+    setFirstname(localStorage.getItem("first_name"));
+    setLastname(localStorage.getItem("last_name"));
+    setEmail(localStorage.getItem("email"));
   }, []);
 
   console.log("selectedFile: ", selectedFile);
@@ -156,18 +208,6 @@ const AccountChange = () => {
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between">
-            <div className="w-full md:w-1/2 md:mr-[60px]">
-              <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
-                Change Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-                placeholder="****"
-              />
-            </div>
             <div className="w-full md:w-1/2">
               <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
                 Change Email
@@ -182,17 +222,7 @@ const AccountChange = () => {
               />
             </div>
           </div>
-          <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
-            Change Wallet
-          </label>
-          <input
-            type="text"
-            name="wallet"
-            value={wallet}
-            onChange={(e) => setWallet(e.target.value)}
-            className="wallet w-full border-2 rounded-[46px] py-3 indent-6 font-[400] mb-6"
-            placeholder="W7Wh&weyu&ysduftudsfuW7Wh&weyu&ysduftudsfu"
-          />
+         
           <button
             className="main_btn mt-0 bg-pink-600 text-white text-[15px]"
             type="submit"
