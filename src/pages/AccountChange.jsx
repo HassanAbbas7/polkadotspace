@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BASE_URL, UPDATE_MYSELF_USER_URL } from "../commons/constant";
+import { BASE_URL, UPDATE_MYSELF_USER_URL, UPDATE_PASSWORD_URL } from "../commons/constant";
 import { toast } from "react-toastify";
 import { getUserData, getToken, setUserData } from "../auth";
 
@@ -21,6 +21,9 @@ const AccountChange = () => {
   const [last_name, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
+  const [oldPassword, setOldPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+
   const changeFileHandler = (event) => {
     setSelectedFile(event.target.files[0]);
     setIsSelected(true);
@@ -35,32 +38,6 @@ const AccountChange = () => {
     e.preventDefault();
 
 
-    // fetch(`${UPDATE_MYSELF_USER_URL}`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     Authorization: `Bearer ${getToken()}`,
-    //   },
-    //   body: formData,
-    // })
-    //   .then((res) => {
-    //     console.log(`user update res: `, res);
-    //     if (res.status === 200) {
-    //       toast.success("Successfully updated profile!");
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     if (data?.email) {
-    //       setUserData(data);
-    //       setUser(data);
-    //     }
-    //     console.log(`user update data: `, data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(`user update err: `, err);
-    //     toast.error("Profile update failed!");
-    //   });
-    //------------------------------------------------------------------------------------
     try {
       const response = await axios.patch(
         UPDATE_MYSELF_USER_URL,
@@ -89,46 +66,39 @@ const AccountChange = () => {
   } catch (error) {
       toast.error(error)
   }
-  //----------------------------------------------------------------
-//   fetch(UPDATE_MYSELF_USER_URL, {
-//   method: 'PATCH',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
-//   },
-//   body: JSON.stringify({
-//           email: "test@gmail.com",
-//           first_name: "New",
-//           last_name: "Name"
-//   })
-// })
-// .then(response => {
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-//   return response.json();
-// })
-// .then(data => {
-//   console.log(data);
-// })
-// .catch(error => {
-//   console.error('There was a problem with the fetch operation:', error);
-// });
+ 
+  };
+
+  const updatePassword = async (e) => {
+    e.preventDefault();
 
 
-  //----------------------------------------------------------
-//   const res = await fetch(`${UPDATE_MYSELF_USER_URL}`, {
-//     method: 'PATCH',
-//     body:{
+    try {
+      const response = await axios.put(
+        UPDATE_PASSWORD_URL,
+        {
+          "old_password": oldPassword,
+          "new_password": newPassword
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          },
+        }
+      );
 
-//     },
-// headers: {
-// 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
-// 'Content-Type': 'application/json'
-// }
-//   });
-//   const getData = await res.json();
-//   setArticles(getData["Your data"]);
+      if ((response.status === 201) || (response.status === 200)) {
+          toast.success("Password changed successfully!");
+          localStorage.clear()
+      }
+      else {
+          toast.error("Something went wrong")
+          toast.error(response.status)
+      }
+  } catch (error) {
+      toast.error(error)
+  }
+ 
   };
 
   useEffect(() => {
@@ -224,10 +194,53 @@ const AccountChange = () => {
           </div>
          
           <button
-            className="main_btn mt-0 bg-pink-600 text-white text-[15px]"
+            className="main_btn mt-10 bg-pink-600 text-white text-[15px]"
             type="submit"
           >
             Save Changes
+          </button>
+        </form>
+        <br/>
+        <form
+          className="app_forms-form mt-4 text-[12px] md:text-[18px]"
+          onSubmit={updatePassword}
+        >
+          <div className="flex flex-col md:flex-row justify-between">
+
+            <div className="w-full md:w-1/2 md:mr-[60px]">
+              <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
+                Old Password
+              </label>
+              <input
+                type="text"
+                name="last_name"
+                className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+                placeholder="old password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+            </div>
+            <div className="w-full md:w-1/2">
+              <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
+                Change Email
+              </label>
+              <input
+                type="text"
+                name="email"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+                placeholder="new password"
+              />
+            </div>
+          </div>
+          
+         
+          <button
+            className="main_btn mt-10 bg-pink-600 text-white text-[15px]"
+            type="submit"
+          >
+            Change Password
           </button>
         </form>
       </div>

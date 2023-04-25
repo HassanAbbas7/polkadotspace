@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -35,7 +35,10 @@ const setName = async () => {
 const Main = ({ value, setValue, handleValue }) => {
   const [searchText, setSearchText] = useState("");
   console.log(`search text: `, searchText);
-  if (!localStorage.getItem('loggedIn')) setName();
+  useEffect(()=>{
+    if (!localStorage.getItem('loggedIn')) setName();
+  }, [])
+  
 
   // const renderButtons = () => {
   //   if (value) {
