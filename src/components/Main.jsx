@@ -18,14 +18,15 @@ const setName = async () => {
               })
 
       if (response.status == 200) {
-          localStorage.setItem('first_name', response.data.first_name);
-          localStorage.setItem('last_name', response.data.last_name);
-          localStorage.setItem('email', response.data.email);
+          localStorage.setItem('first_name', response.data["Names"].first_name);
+          localStorage.setItem('last_name', response.data["Names"].last_name);
+          localStorage.setItem('email', response.data["Names"].email);
+          localStorage.setItem('favs', response.data["Favs"]);
   }
   else{
     alert(response.status)
   }
-     
+
 }
 
 

@@ -210,7 +210,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates }) => {
     <span>{userIcon}</span>
   </div>
 ) : (
-  "Bro please work!"
+  ""
   // article.Images.split(",").map((image, index) => (
   //   <img src={image} key={index} />
   // ))

@@ -18,10 +18,16 @@ const barsIcon = <FontAwesomeIcon icon={faBars} />;
 const heartIcon = <FontAwesomeIcon icon={faHeart} />;
 
 const Navbar = () => {
+  const [favs, setFavs] = useState(0);
   const languageList = ["en", "fr"];
   const [openLanguages, setOpenLanguages] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(languageList[0]);
   const langaugesIconRef = useRef(null);
+
+
+  setTimeout(function(){
+    setFavs(localStorage.getItem("favs"));
+  }, 2000);
 
   const applyLangaugeOnClick = (e) => {
     if (langaugesIconRef.current) {
@@ -37,6 +43,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
+    
   }, [loggedIn]);
 
   return (
@@ -91,7 +98,7 @@ const Navbar = () => {
               logout
             </button>
             <Link to="/pages/favourites" className="text-center mx-1">
-              {heartIcon} <span>2</span>
+              {heartIcon} <span>{favs}</span>
             </Link>
           </div>
         ) : (
