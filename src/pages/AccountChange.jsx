@@ -90,6 +90,7 @@ const AccountChange = () => {
       if ((response.status === 201) || (response.status === 200)) {
           toast.success("Password changed successfully!");
           localStorage.clear()
+          window.location.href = '/pages/login';
       }
       else {
           toast.error("Something went wrong")
@@ -222,7 +223,7 @@ const AccountChange = () => {
             </div>
             <div className="w-full md:w-1/2">
               <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
-                Change Email
+                New Password
               </label>
               <input
                 type="text"
