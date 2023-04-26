@@ -11,7 +11,9 @@ export const UPDATE_MYSELF_USER_URL = `${BASE_URL}/update_user_info`;
 export const GET_FAV_ARTICLES = `${BASE_URL}/get_fav`
 export const GET_USER_DATA = `${BASE_URL}/get_user_data`
 export const UPDATE_PASSWORD_URL = `${BASE_URL}/change_pass`
-
+export const GET_CATEGORY_URL = `${BASE_URL}/get_categories`
+export const KEYWORD_ADD_URL = `${BASE_URL}/add_category/`
+export const KEYWORD_DELETE_URL = `${BASE_URL}/delete_category/`
 
 export const GET_MY_PROFILE_URL = `${BASE_URL}/auth/api/v1/profile/me`;
 export const UPDATE_PROFILE_URL = `${BASE_URL}/auth/api/v1/user/update/me`;

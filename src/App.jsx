@@ -16,7 +16,7 @@ import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import AddArticle from "./pages/AddArticle";
 import Main from "./components/Main";
-
+import Admin from "./admin/Admin";
 // Admin Pages
 import Users from "./admin/Users";
 import Websites from "./admin/Websites";
@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/pages/addarticle" element={<AddArticle />} />
           <Route path="/pages/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/admin" element={<PrivateOutlet />}>
+          <Route path="/admin" element={<Admin />}>
             <Route path="/admin" element={<NotFound />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/websites" element={<Websites />} />
