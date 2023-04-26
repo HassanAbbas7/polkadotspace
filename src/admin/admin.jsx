@@ -38,7 +38,7 @@ const Admin = () => {
     //   }
     //   const data = await response.json();
     //   return data;
-    
+    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
     const handleCategoryRemove = async (id)=>{
         try {
             const response = await axios.get(`${KEYWORD_DELETE_URL}${id}`)
