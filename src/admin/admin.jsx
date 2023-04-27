@@ -1,10 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
-import { GET_CATEGORY_URL, KEYWORD_ADD_URL, KEYWORD_DELETE_URL, CHECK_ADMIN_URL } from "../commons/constant";
-
+//-------------------------import constants------------------------
+import { GET_CATEGORY_URL, KEYWORD_ADD_URL, KEYWORD_DELETE_URL, CHECK_ADMIN_URL, ADD_KEYWORD_URL } from "../commons/constant";
+//-------------------------import pages and components-------------
 import FavouritePost from "../components/FavouritePost";
 import PostsPagination from "../components/PostsPagination";
-import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+//--------------------------import modules-------------------------
+import React, { useRef, useState, useEffect } from "react";
+import Box from "@mui/material/Box";
 import axios from "axios";
 
 
@@ -19,7 +21,11 @@ const Admin = () => {
     const [isAdmin, setIsAdmin] = useState(null);
     const [categories, setCategories] = useState([]);
     const [addCategory, setAddCategory] = useState("");
-
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [keyword, setKeyword] = useState('');
+    const [category, setCategory] = useState('');
+    console.log(selectedCategory);
+ 
 
 //--------------------------check if admin------------------------------
     useEffect(() => {
@@ -67,7 +73,6 @@ const Admin = () => {
       try {
         const response = await axios.get(`${KEYWORD_ADD_URL}${addCategory}`)
         if (response.status == 200) {
-            alert("success")
         } else {
             alert("fail")
         }
@@ -75,9 +80,32 @@ const Admin = () => {
         console.log(error)
     }
   }
+//-------------------------keyword add function-----------------------------------
 
-//-----------------------------------------------------------------------------
+const addKeyword = async (event) => {
+  if (!(keyword || category)){
+    alert("fill out all the fields!");
+    return
+  }
+  const data = {
+    keyword: keyword,
+    category: selectedCategory,
+  };
+  try {
+    const response = await axios.post(ADD_KEYWORD_URL, data);
+    if (response.status === 201) {
+      alert("Added!");
+    } else {
+      alert("Failed...");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
 
+
+//-------------------------functions-------------------------------------------------
 
 
 
@@ -115,11 +143,6 @@ const Admin = () => {
   <h2 className="text-pink-600 font-medium mb-2">All Categories:</h2>
   <div className="py-3 px-4 rounded-md">
     <ul className="flex flex-wrap">
-      {/* categories?.map((article, index) => (
-            <div key={index}>
-              <FavouritePost filterText={filterText} dates={[minDate, maxDate]} article={article} activeItem={activeItem}/>
-            </div>
-          ) */}
           {categories?.map(category => (
           <li key={category.id} className="text-white font-medium mr-2 mb-2 px-2 py-1 rounded-full bg-pink-700 relative">
           <span>{category.name}</span>
@@ -131,8 +154,34 @@ const Admin = () => {
     </ul>
   </div>
 </div>
-
-
+<h1 class="text-center text-pink-500 text-6xl font-bold">Scraping Panel</h1>
+<div className="mx-auto p-6 bg-white rounded-lg shadow-xl">
+      <label className="text-pink-600 font-medium mb-2">Keyword</label>
+      <input 
+        className="px-3 py-2 border-2 border-pink-500 rounded-lg w-full mr-2 focus:outline-none focus:border-pink-600" 
+        type="text" 
+        value={keyword} 
+        onChange={(e)=>{setKeyword(e.target.value)}} 
+        placeholder="Enter a keyword"
+      />
+      <label className="text-pink-600 font-medium mb-2">Category</label> <br />
+      <select 
+        className="max-w-sm px-3 py-2 border-2 border-pink-500 rounded-lg w-full mr-2 focus:outline-none focus:border-pink-600"
+        value={selectedCategory} 
+        onChange={(e)=>{setSelectedCategory(e.target.value)}}
+      >
+        <option value="">Select a category</option>
+        {categories?.map(category => (
+          <option key={category.id} value={category.id}>{category.name}</option>
+        ))}
+      </select>
+      <button 
+        className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-16"
+        onClick={addKeyword}
+      >
+        Scrape!
+      </button>
+    </div>
     </div>
     ) : (
       <p>Access denied.</p>
