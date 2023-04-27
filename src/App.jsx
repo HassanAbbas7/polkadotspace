@@ -18,7 +18,7 @@ import AddArticle from "./pages/AddArticle";
 import Main from "./components/Main";
 import Admin from "./admin/Admin";
 import ForgotPassword from "./pages/ForgotPassword";
-import HandlePassChange from "./pages/handlePassChange";
+import HandlePassChange from "./pages/HandlePassChange";
 // Admin Pages
 import Users from "./admin/Users";
 import Websites from "./admin/Websites";
