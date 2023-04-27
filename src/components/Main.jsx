@@ -3,13 +3,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import SearchBar from "../components/SearchBar";
-import {GET_USER_DATA} from "../commons/constant";
+import {GET_USER_DATA, CHECK_ADMIN_URL} from "../commons/constant";
 import axios from "axios";
 
 
 
-
 const setName = async () => {
+
+
+
+//--------------------------get names and emails and stuff----------------------
+
       const response = await axios.get(GET_USER_DATA, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
@@ -27,34 +31,22 @@ const setName = async () => {
     alert(response.status)
   }
 
+
 }
 
-
-
-
 const Main = ({ value, setValue, handleValue }) => {
+  
   const [searchText, setSearchText] = useState("");
-  console.log(`search text: `, searchText);
+
+  //----------------------get names and emails and stuff------------------------
   useEffect(()=>{
     if (!localStorage.getItem('loggedIn')) setName();
   }, [])
+
   
 
-  // const renderButtons = () => {
-  //   if (value) {
-  //     return (
-  //       <Link to="/pages/search" className="main_btn mt-8">
-  //         Search
-  //       </Link>
-  //     );
-  //   } else {
-  //     return (
-  //       <button className="main_btn mt-8 disabled:opacity-30" disabled>
-  //         Search
-  //       </button>
-  //     );
-  //   }
-  // };
+
+
 
   return (
     <div className="app_main pt-16 xl:pt-30">
@@ -65,10 +57,7 @@ const Main = ({ value, setValue, handleValue }) => {
             <span>Web3 </span>starts here
           </h1>
           <div className="flex flex-col items-center my-6">
-            {/* <form
-            className="flex flex-col items-center my-6"
-            action={`/pages/search?searchKey=${searchText}`}
-          > */}
+
             <SearchBar
               setSearchText={setSearchText}
               // value={value}

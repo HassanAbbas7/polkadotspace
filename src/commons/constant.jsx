@@ -16,7 +16,8 @@ export const KEYWORD_ADD_URL = `${BASE_URL}/add_category/`
 export const KEYWORD_DELETE_URL = `${BASE_URL}/delete_category/`
 export const CHECK_ADMIN_URL = `${BASE_URL}/check_admin`
 export const ADD_KEYWORD_URL = `${BASE_URL}/add_keyword`
-
+export const UPDATE_DATA_URL = `${BASE_URL}/update_data/`
+export const DELETE_DATA_URL = `${BASE_URL}/delete_data/`
 
 export const GET_MY_PROFILE_URL = `${BASE_URL}/auth/api/v1/profile/me`;
 export const UPDATE_PROFILE_URL = `${BASE_URL}/auth/api/v1/user/update/me`;

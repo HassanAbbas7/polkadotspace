@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SearchBar from "../components/SearchBar";
 import PostsPagination from "../components/PostsPagination";
 import Filter from "../components/Filter";
-import { DATA_SEARCH_URL, REFRESH_TOKEN_URL } from "../commons/constant";
+import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, CHECK_ADMIN_URL } from "../commons/constant";
 import FavouritePost from "../components/FavouritePost";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ const Search = ({ value, setValue, handleValue }) => {
   const navigate = useNavigate();
 
   const [filterText, setFilterText] = useState("All");
+  const [isAdmin, setIsAdmin] = useState(null);
   const filterList = ["All", "Image", "Videos", ""];
   const categoryList = [
     "BTC",
@@ -65,6 +66,26 @@ return token;
   const incrementLimit = () =>{
     setLimit(limit+20);
   }
+  //-----------------------------check if admin----------------------------------
+  useEffect(() => {
+    fetch(CHECK_ADMIN_URL, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data == false) {
+          setIsAdmin(false);
+        }
+        else {
+          setIsAdmin(true);
+        }
+      })
+      .catch(error => console.error(error));
+  }, []);
+  
+
 
   const addActiveClass = (e) => {
     const filterListChildren = Array.from(filterListRef.current.children);
@@ -207,7 +228,7 @@ return token;
         ) : (
           filteredArticles?.map((article, index) => (
             <div key={index}>
-              <FavouritePost filterText={filterText} dates={[minDate, maxDate]} article={article} activeItem={activeItem}/>
+              <FavouritePost filterText={filterText} admin={isAdmin} dates={[minDate, maxDate]} setArticles={setArticles} articles={articles} article={article} activeItem={activeItem}/>
             </div>
           ))
         )}

@@ -1,4 +1,5 @@
-
+import axios from 'axios';
+import {REFRESH_TOKEN_URL} from "../commons/constant";
 
 export const isLoggedIn = () => {
     const token = localStorage.getItem('loggedin');
@@ -14,13 +15,33 @@ export const setToken = (token) => {
 }
 
 
+
+const getNewToken = async () => {
+    console.log(localStorage.getItem("refreshToken"));
+    try {
+        const res = await axios.post(REFRESH_TOKEN_URL, {
+               "refresh": localStorage.getItem("refreshToken")
+                    })
+        const data = await res.data;
+  console.log(data);
+  const token = data.access;
+  localStorage.setItem("accessToken", token);
+  return token;
+    }
+    catch (e){
+        console.log(e)
+    }
+  
+  };
+
 export const setUserData = (obj) => {
     localStorage.setItem('userData', JSON.stringify(obj));
 }
 
 
 export const getToken = () => {
-    return localStorage.getItem('access');
+    getNewToken();
+    return localStorage.getItem('accessToken');
 }
 
 
