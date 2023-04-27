@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { GET_CATEGORY_URL, KEYWORD_ADD_URL, KEYWORD_DELETE_URL } from "../commons/constant";
+import { GET_CATEGORY_URL, KEYWORD_ADD_URL, KEYWORD_DELETE_URL, CHECK_ADMIN_URL } from "../commons/constant";
 
 import FavouritePost from "../components/FavouritePost";
 import PostsPagination from "../components/PostsPagination";
@@ -13,9 +13,34 @@ import axios from "axios";
 const Admin = () => {
 
 
+//-----------------------------constants and vars-----------------------
 
+
+    const [isAdmin, setIsAdmin] = useState(null);
     const [categories, setCategories] = useState([]);
     const [addCategory, setAddCategory] = useState("");
+
+
+//--------------------------check if admin------------------------------
+    useEffect(() => {
+      fetch(CHECK_ADMIN_URL, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data == false) {
+            setIsAdmin(false);
+          }
+          else {
+            setIsAdmin(true);
+          }
+        })
+        .catch(error => console.error(error));
+    }, []);
+//----------------------------get data-----------------------------------
+
 
   useEffect(() => {
     fetch(GET_CATEGORY_URL)
@@ -26,19 +51,8 @@ const Admin = () => {
       .catch(error => console.error(error));
   }, [categories]);
 
-    // const response = await fetch(`${KEYWORD_ADD_URL}${addCategory}`, {
-    //     method: 'GET',
-    //   });
 
-    //   if (response.status === 200){
-    //     alert("success")
-    //   }
-    //   else{
-    //     alert("already")
-    //   }
-    //   const data = await response.json();
-    //   return data;
-    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
+//------------------------category remove function----------------------------
     const handleCategoryRemove = async (id)=>{
         try {
             const response = await axios.get(`${KEYWORD_DELETE_URL}${id}`)
@@ -47,7 +61,7 @@ const Admin = () => {
         }
     }
 
-
+//------------------------category add function--------------------------------
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
@@ -62,12 +76,17 @@ const Admin = () => {
     }
   }
 
+//-----------------------------------------------------------------------------
 
 
 
 
   return (
-    <div className="app_favourites">
+    <>
+    {isAdmin === null ? (
+      <p>Loading...</p>
+    ) : isAdmin ? (
+      <div className="app_favourites">
       <h1 className="text-center text-[30px] md:text-[70px] font-[700]">
         Ad<span>min</span>
       </h1>
@@ -115,6 +134,11 @@ const Admin = () => {
 
 
     </div>
+    ) : (
+      <p>Access denied.</p>
+    )}
+    </>
+   
   );
 };
 
