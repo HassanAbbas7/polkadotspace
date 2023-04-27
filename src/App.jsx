@@ -17,6 +17,8 @@ import BlogArticle from "./pages/BlogArticle";
 import AddArticle from "./pages/AddArticle";
 import Main from "./components/Main";
 import Admin from "./admin/Admin";
+import ForgotPassword from "./pages/ForgotPassword";
+import HandlePassChange from "./pages/handlePassChange";
 // Admin Pages
 import Users from "./admin/Users";
 import Websites from "./admin/Websites";
@@ -66,6 +68,9 @@ const App = () => {
           <Route path="/pages/blogarticle/:id" element={<BlogArticle />} />
           <Route path="/pages/addarticle" element={<AddArticle />} />
           <Route path="/pages/contact" element={<Contact />} />
+          <Route path="/pages/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/pages/handlePassChange/:uid/:token/" element={<HandlePassChange />} />
+          
           <Route path="*" element={<NotFound />} />
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin" element={<NotFound />} />

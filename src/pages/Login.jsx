@@ -19,44 +19,6 @@ const Login = () => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const navigate = useNavigate();
 
-  // const submitLogin = async (e) => {
-  //   e.preventDefault();
-  //   console.log(`login button clicked!`);
-  //   const username = e.target.email.value;
-  //   const password = e.target.password.value;
-  //   const data = { username, password };
-  //   console.log(`body: `, data);
-
-  //   fetch(`${LOGIN_URL}`, {
-  //     method: "POST",
-  //     headers: {
-  //       // "Accept": "application/json text/plain",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => {
-  //       console.log(`login res: `, res);
-  //       if (res.status !== 200) {
-  //         toast.warn("Invalid credentials given.");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(`login data: `, data);
-  //       if (data?.access) {
-  //         setToken(data?.access);
-  //         setUserData(data);
-  //         toast.success("Successfully logged in");
-  //         navigate("/");
-  //         window.location.reload();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(`login err: `, err);
-  //       toast.error("Login failed! Please provide correct credentials");
-  //     });
-  // };
 
    const handleSubmit = async (e) => {
    e.preventDefault();
@@ -118,6 +80,8 @@ const Login = () => {
               {visiblePassword ? eyeIcon : eyeSlashIcon}
             </span>
           </div>
+
+          <p className="text-center my-6 text-pink-600"><Link to="/pages/forgotPassword">Forgot password?</Link></p>
           <div className="form_btns flex justify-between items-center mt-[25px] md:mt-[35px]">
             <button
               type="submit"
