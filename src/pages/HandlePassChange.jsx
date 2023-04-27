@@ -26,7 +26,7 @@ useEffect(()=>{
   setNewPass(true);
 }, [])
 
-const setNewPass = async (e)=>{
+const setNewPassword = async (e)=>{
     e.preventDefault()
     axios.post( `${RESET_PASSWORD_URL}/${uid}/${token}/` , {
         new_password: pass
@@ -43,7 +43,7 @@ const setNewPass = async (e)=>{
 }
 
   return (
-    newPass ?  <form onSubmit={setNewPass}>
+    newPass ?  <form onSubmit={setNewPassword}>
     <div className="mb-4">
       <label htmlFor="email" className="block mb-2 font-medium text-pink-400">Enter New Password:</label>
       <input 
