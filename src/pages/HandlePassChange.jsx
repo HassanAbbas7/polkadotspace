@@ -25,8 +25,6 @@ useEffect(()=>{
   })
   .then(response => {
   console.log(response.status);
-    alert("asdf")
-    
 //   }
   })
   .catch(error => {
@@ -52,7 +50,7 @@ const setNewPassword = async (e)=>{
     .catch(error => {
     console.log(error);
     });
-}
+} 
 
   return (
     newPass ?
