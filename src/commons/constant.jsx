@@ -18,8 +18,9 @@ export const CHECK_ADMIN_URL = `${BASE_URL}/check_admin`
 export const ADD_KEYWORD_URL = `${BASE_URL}/add_keyword`
 export const UPDATE_DATA_URL = `${BASE_URL}/update_data/`
 export const DELETE_DATA_URL = `${BASE_URL}/delete_data/`
-export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password`
+export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password/`
 export const PASSWORD_RESET_TOKEN = `${BASE_URL}/reset-password`
+export const RESET_PASSWORD_URL = `${BASE_URL}/reset-password/confirm`
 
 export const GET_MY_PROFILE_URL = `${BASE_URL}/auth/api/v1/profile/me`;
 export const UPDATE_PROFILE_URL = `${BASE_URL}/auth/api/v1/user/update/me`;

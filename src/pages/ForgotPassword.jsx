@@ -12,7 +12,7 @@ function ForgotPassword() {
 
 
     axios.post( `${FORGOT_PASSWORD}` , {
-        email: localStorage.getItem("email")
+        email: email
     })
   .then(response => {
     console.log(response.status);

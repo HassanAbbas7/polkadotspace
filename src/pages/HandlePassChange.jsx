@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { PASSWORD_RESET_TOKEN } from "../commons/constant";
+import { PASSWORD_RESET_TOKEN,RESET_PASSWORD_URL } from "../commons/constant";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
+
+const eyeIcon = <FontAwesomeIcon icon={faEye} size="xs" />;
+const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} size="xs" />;
 
 
 function HandlePassChange() {
    const { uid, token } = useParams();
    const [newPass, setNewPass] = useState(false);
-   const [pass, setPass] = useState("password must be 8 or more characters of length")
+   const [pass, setPass] = useState("")
+   const [visiblePassword, setVisiblePassword] = useState(false);
+
 
 useEffect(()=>{
     axios.get( `${PASSWORD_RESET_TOKEN}/${uid}/${token}/` , {
   })
   .then(response => {
   console.log(response.status);
-//   if (response.status == 200){
     alert("asdf")
     
 //   }
@@ -28,13 +37,16 @@ useEffect(()=>{
 
 const setNewPassword = async (e)=>{
     e.preventDefault()
+    if (pass.length <= 8){
+      toast.error("Password must be at least 9 characters in length!")
+    }
     axios.post( `${RESET_PASSWORD_URL}/${uid}/${token}/` , {
         new_password: pass
     })
     .then(response => {
     console.log(response.status);
     if (response.status === 200){
-        alert("you are ok")
+        toast.success("Password changed successfully!!")
     }
     })
     .catch(error => {
@@ -43,20 +55,28 @@ const setNewPassword = async (e)=>{
 }
 
   return (
-    newPass ?  <form onSubmit={setNewPassword}>
-    <div className="mb-4">
-      <label htmlFor="email" className="block mb-2 font-medium text-pink-400">Enter New Password:</label>
-      <input 
-        type="password"
-        id="email"
-        value={pass}
-        onChange={(e) => setPass(e.target.value)}
-        required
-        className="w-full border-2 rounded-lg py-3 px-4 font-normal"
-        placeholder="Enter your email address"
-      />
-    </div>
-    <button type="submit" className="w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition duration-300">Change password</button>
+    newPass ?
+    
+    <form onSubmit={setNewPassword}>
+      <h1 className="text-[20px] md:text-[30px] font-[600] text-pink-500">Enter new Password:</h1>
+    <div className="relative mt-[15px]">
+            <input
+              type={`${visiblePassword ? "text" : "password"}`}
+              name="password"
+              required
+              className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+              placeholder="password must be 8 or more characters of length"
+              value={pass}
+              onChange={(e)=>{setPass(e.target.value)}}
+            />
+            <span
+              className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
+              onClick={() => setVisiblePassword(!visiblePassword)}
+            >
+              {visiblePassword ? eyeIcon : eyeSlashIcon}
+            </span>
+          </div>
+    <button type="submit" className="w-full bg-pink-500 text-white py-2 mt-8 rounded-lg hover:bg-pink-600 transition duration-300">Change password</button>
   </form>:
     <h1>uid: {uid}, token:{token}</h1>
   );
