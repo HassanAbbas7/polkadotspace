@@ -133,6 +133,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
   const deleteData = async (e)=>{
     e.preventDefault();
+    if (!confirm("Permanently delete data?")) return;
     axios.delete(`${DELETE_DATA_URL}${article.id}/`,{
       headers: {
         'Content-Type': 'application/json',
@@ -160,9 +161,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
             }
         })
         const claps = await response.data.claps
-        alert(claps);
         const act = await response.data.action
-        alert(act);
         setClaps(claps)
         setClapAction(parseInt(act))
     } catch (error) {

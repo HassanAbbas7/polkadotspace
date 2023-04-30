@@ -47,7 +47,12 @@ const Search = ({ value, setValue, handleValue }) => {
   }
   //-----------------------------check if admin----------------------------------
   useEffect(() => {
-    fetch(CHECK_ADMIN_URL
+    const headers = {}
+    if (localStorage.getItem("loggedin")){
+      headers.Authorization = "Bearer "+getToken()
+    }
+    fetch(CHECK_ADMIN_URL,
+      {headers: headers}
     )
       .then(response => response.json())
       .then(data => {
@@ -60,9 +65,6 @@ const Search = ({ value, setValue, handleValue }) => {
       })
       .catch(error => console.error(error));
   }, []);
-  
-
-
   const addActiveClass = (e) => {
     const filterListChildren = Array.from(filterListRef.current.children);
     filterListChildren.forEach((child) => {
@@ -75,7 +77,7 @@ const Search = ({ value, setValue, handleValue }) => {
     });
   };
 
-  
+
   const renderFilterList = () => {
 
     return filterList.map((filterText, i) => {
