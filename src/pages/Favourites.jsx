@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, GET_FAV_ARTICLES } from "../commons/constant";
 
+import SearchBar from "../components/SearchBar";
 import FavouritePost from "../components/FavouritePost";
 import PostsPagination from "../components/PostsPagination";
 import Box from "@mui/material/Box";
@@ -106,6 +107,13 @@ const Favourites = () => {
 
   return (
     <div className="app_favourites">
+      <div className="flex flex-col items-start">
+        <SearchBar
+        />
+        <span className="app_search-results_count text-[10px] md:text-[20px] md:ml-[30px] mt-[10px] font-[300]">
+          about {articles?.length} results
+        </span>
+      </div>
       <h1 className="text-center text-[30px] md:text-[70px] font-[700]">
         Fa<span>vourites</span>
       </h1>
@@ -115,7 +123,6 @@ const Favourites = () => {
       >
         {/* {renderFilterList()} */}
         <li className={`cursor-pointer md:px-10 ${activeItem === "All" ? "active" : ""}` } onClick={() => handleItemClick("All")}>All</li>
-      <li className={`cursor-pointer md:px-10 ${activeItem === "Image" ? "active" : ""}`}  onClick={() => handleItemClick("Image")}>Image</li>
       <li className={`cursor-pointer md:px-10 ${activeItem === "Videos" ? "active" : ""}`} onClick={() => handleItemClick("Videos")}>Videos</li>
       <li className="cursor-pointer md:px-10"> </li>
 

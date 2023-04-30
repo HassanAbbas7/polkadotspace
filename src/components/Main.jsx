@@ -60,26 +60,23 @@ const Main = ({ value, setValue, handleValue }) => {
 
             <SearchBar
               setSearchText={setSearchText}
-              // value={value}
-              // setValue={setValue}
-              // handleValue={handleValue}
             />
             <Link
-              to={localStorage.getItem("loggedin") ? `/pages/search?searchKey=${searchText}`:`/pages/login`}
+              to={`/pages/search?searchKey=${searchText}`}
               className="main_btn mt-8 text-[15px] md:text-[25px] px-[85px] md:px-[150px]"
             >
               Search
             </Link>
             {/* </form> */}
           </div>
-          <div className="flex justify-evenly">
+          {/* <div className="flex justify-evenly">
             <button className="btn text-[12px] md:text-[17px] px-[32px] md:px-[50px]">
               Polkadot Search
             </button>
             <button className="btn text-[12px] md:text-[17px] px-[32px] md:px-[50px]">
               Feeling Lucky
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

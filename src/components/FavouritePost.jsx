@@ -74,7 +74,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
         <li
           key={i}
           className={`mr-[5px] md:mr-[20px] ${
-            filterText === "All" ? "mr-[0px] mb-[0px]" : ""
+            activeItem === "All" ? "mr-[0px] mb-[0px]" : ""
           } lg:mr-[43px] text-[15px] md:text-[20px] mb-[15px]`}
         >
           <a href="/">{icon}</a>
@@ -88,6 +88,10 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
 
   const createOrUpdateFav = async (e)=> {
+    if (!localStorage.getItem("loggedin")){
+      toast.warn("Please log in to like or favourite a post!");
+      return
+    }
     try {
         const response = await axios.get(`${CREATE_UPDATE_FAV_URL}`+ article.id, {
             "headers": {
@@ -146,7 +150,10 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
   const createOrUpdateClap = async (e)=> {
     try {
-      alert("trying to click this dawg!");
+      if (!localStorage.getItem("loggedin")){
+        toast.warn("Please log in to like or favourite a post!");
+        return
+      }
       const response = await axios.get(`${CREATE_UPDATE_CLAP_URL}`+article.id, {
             "headers": {
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
@@ -188,22 +195,22 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
 
   const componentStructure = () => {
-    if (!render) return;
+    if (!render || activeItem==="Videos") return;
     return (
       <>
       <div
         className={`app_search_result mx-auto md:mx-0 flex md:pb-[25px] pl-[16px] pb-[15px] ${
-          filterText === "All" ? "pt-[12px]" : "pt-[20px]"
+          activeItem === "All" ? "pt-[12px]" : "pt-[20px]"
         } pr-[22px] md:pr-[56px] justify-between rounded-[20px] md:rounded-[50px] relative z-[200] mt-[40px] md:mt-[90px] w-6/6 md:w-9/12`}
       >
         <div
           className={`${
-            filterText === "All" ? "md:pl-[80px]" : "md:pl-[40px]"
+            activeItem === "All" ? "md:pl-[80px]" : "md:pl-[40px]"
           } w-11/12 md:w-9/12`}
         >
           <p
             className={`app_search_result-time font-[300] ${
-              filterText === "All"
+              activeItem === "All"
                 ? "leading-[12px] md:leading-[22px]"
                 : "-mt-[20px] md:mt-[0px]"
             }`}
@@ -215,10 +222,10 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
           </p>
           <h1
             className={`-mt-0 lg:-mt-4 flex items-center ${
-              filterText === "All" ? "md:-ml-[65px]" : ""
+              activeItem === "All" ? "md:-ml-[65px]" : ""
             }`}
           >
-            {filterText === "All" ? (
+            {activeItem === "All" ? (
   <div className="mr-1 text-[13px] md:text-[25px]">
     {/* <img
       src={
@@ -229,7 +236,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
       alt="Person"
       className="w-6 md:w-10 rounded-full"
     /> */}
-    <span>{userIcon}</span>
+    <span><img src={"https://logo.clearbit.com/"+(new URL(articleObj?.URL)).origin} alt="logo" height="50" width="50" /></span>
   </div>
 ) : (
   ""
@@ -240,7 +247,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
             <div
               className={`text-[12px] md:text-[25px] my-2 text-ellipsis w-64 whitespace-nowrap overflow-hidden ${
-                filterText === "All" ? "pl-3" : "pl-0"
+                activeItem === "All" ? "pl-3" : "pl-0"
               }`}
             >
               {(admin && editing)? <input type="text" value={title} onChange={(e)=>{setTitle(e.target.value)}}/>:<a href={articleObj?.URL} target="_blank">
@@ -310,7 +317,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
           
           <ul
             className={`bordered_icons flex col-span-2 text-center relative text-[15px] md:text-[25px] ${
-              filterText !== "All"
+              activeItem !== "All"
                 ? "pt-[17px] md:pt-[56px]"
                 : "pt-[17px] md:pt-[33px]"
             } `}
@@ -359,22 +366,22 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
                 {window.location.href.includes("search") ? starIcon : heartIcon}
               </a>
             </li>
-
-              <div className="ml-auto flex">
-            <li><a href="#" class={editing? "clicked": ""}><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" class="svg-inline--fa fa-edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={(e)=>{setEditing(!editing)}}><path fill="currentColor" d="M494.1 117.9l-97.9-97.9c-18.8-18.8-49.1-18.8-67.9 0l-35.3 35.3 165.8 165.8 35.3-35.3c18.8-18.7 18.8-49 0-67.9zm-128.5-5.7l-236.2 236.2c-5.5 5.5-8.5 12.8-8.5 20.5v75.8c0 8.8 7.2 16 16 16h75.8c7.7 0 15-3 20.5-8.5l236.2-236.2c11.2-11.2 11.2-29.5 0-40.7l-50.7-50.7c-11.2-11.2-29.5-11.2-40.7 0zm-79.7 80.1l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm-49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm-49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2z"></path></svg></a></li>
-            <li onClick={updateData}><a href="#" class="delete" ><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" class="svg-inline--fa fa-trash-alt " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M400 464H48c-26.5 0-48-21.5-48-48V128c0-26.5 21.5-48 48-48h32V48c0-26.5 21.5-48 48-48h128c26.5 0 48 21.5 48 48v32h32c26.5 0 48 21.5 48 48v288c0 26.5-21.5 48-48 48zM192 80h64v48h-64V80zM96 128v288h256V128H96z"></path></svg></a></li>
-            <li onClick={deleteData}>
-  <a href="#" class="delete">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
-      <path fill="currentColor" d="M238.059 256L344.485 149.574c9.373-9.373 9.373-24.569 0-33.941L320.912 94.059c-9.373-9.373-24.568-9.373-33.941 0L176 200.118 69.574 93.692c-9.373-9.373-24.568-9.373-33.941 0L27.515 116.8c-9.373 9.373-9.373 24.569 0 33.941L133.941 256 27.515 362.426c-9.373 9.373-9.373 24.569 0 33.941l23.058 23.058c9.373 9.373 24.568 9.373 33.941 0L176 311.882l106.426 106.426c9.373 9.373 24.568 9.373 33.941 0l23.058-23.058c9.373-9.373 9.373-24.569 0-33.941L238.059 256z"></path>
-    </svg>
-  </a>
-</li>
-</div>
+              {admin? <div className="ml-auto flex">
+                <li><a href="#" class={editing ? "clicked" : ""}><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" class="svg-inline--fa fa-edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={(e) => { setEditing(!editing) }}><path fill="currentColor" d="M494.1 117.9l-97.9-97.9c-18.8-18.8-49.1-18.8-67.9 0l-35.3 35.3 165.8 165.8 35.3-35.3c18.8-18.7 18.8-49 0-67.9zm-128.5-5.7l-236.2 236.2c-5.5 5.5-8.5 12.8-8.5 20.5v75.8c0 8.8 7.2 16 16 16h75.8c7.7 0 15-3 20.5-8.5l236.2-236.2c11.2-11.2 11.2-29.5 0-40.7l-50.7-50.7c-11.2-11.2-29.5-11.2-40.7 0zm-79.7 80.1l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm-49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2zm-49.8 49.9l-36.3-36.3 44.2-44.2 36.3 36.3-44.2 44.2z"></path></svg></a></li>
+                <li onClick={updateData}><a href="#" class="delete" ><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" class="svg-inline--fa fa-trash-alt " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M400 464H48c-26.5 0-48-21.5-48-48V128c0-26.5 21.5-48 48-48h32V48c0-26.5 21.5-48 48-48h128c26.5 0 48 21.5 48 48v32h32c26.5 0 48 21.5 48 48v288c0 26.5-21.5 48-48 48zM192 80h64v48h-64V80zM96 128v288h256V128H96z"></path></svg></a></li>
+                <li onClick={deleteData}>
+                  <a href="#" class="delete">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
+                      <path fill="currentColor" d="M238.059 256L344.485 149.574c9.373-9.373 9.373-24.569 0-33.941L320.912 94.059c-9.373-9.373-24.568-9.373-33.941 0L176 200.118 69.574 93.692c-9.373-9.373-24.568-9.373-33.941 0L27.515 116.8c-9.373 9.373-9.373 24.569 0 33.941L133.941 256 27.515 362.426c-9.373 9.373-9.373 24.569 0 33.941l23.058 23.058c9.373 9.373 24.568 9.373 33.941 0L176 311.882l106.426 106.426c9.373 9.373 24.568 9.373 33.941 0l23.058-23.058c9.373-9.373 9.373-24.569 0-33.941L238.059 256z"></path>
+                    </svg>
+                  </a>
+                </li>
+              </div>:""}
+              
 
             
             
-            {window.location.href.includes("favourites") ? (
+            {/* {window.location.href.includes("favourites") ? (
               <li className="app_search_result-likes w-[56px] flex mt-[0px]">
                 <img
                   src={imgOne}
@@ -402,7 +409,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
               <p className="text-[5px] text-left md:text-[15px] absolute top-full w-52">
                 {claps} clap(s)
               </p>
-            )}
+            )} */}
             {window.location.href.includes("favourites") ? (
               <Likes
                 likesRef={likesRef}
@@ -416,7 +423,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
             )}
           </ul>
         </div>
-        {filterText !== "All" ? (
+        {activeItem !== "All" ? (
           <div className="app_search_result-images flex flex-col pt-[25px] md:pt-[30px] w-3/12 text-center">
             <div className="app_search_result-images_img">
               <img

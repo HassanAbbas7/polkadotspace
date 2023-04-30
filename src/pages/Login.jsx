@@ -96,11 +96,6 @@ const Login = () => {
               Register
             </Link>
           </div>
-          <p className="forgot_email md:text-[20px] font-[400] mt-[25px]">
-            <Link to="/pages/reset" className="text-[10px] md:text-[20px]">
-              {"abc"}
-            </Link>
-          </p>
         </form>
       </div>
     </div>

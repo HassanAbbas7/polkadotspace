@@ -10,6 +10,7 @@ import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, CHECK_ADMIN_URL } from "../commons/
 import FavouritePost from "../components/FavouritePost";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getToken } from "../auth";
 
 
 
@@ -18,10 +19,9 @@ import { toast } from "react-toastify";
 const Search = ({ value, setValue, handleValue }) => {
 
   const navigate = useNavigate();
-
   const [filterText, setFilterText] = useState("All");
   const [isAdmin, setIsAdmin] = useState(null);
-  const filterList = ["All", "Image", "Videos", ""];
+  const filterList = ["All", "Videos", ""];
   const categoryList = [
     "BTC",
     "Video BTC",
@@ -35,28 +35,7 @@ const Search = ({ value, setValue, handleValue }) => {
   const [minDate, setMinDate] = useState();
   const [maxDate, setMaxDate] = useState();
   const [searchValue, setSearchValue] = useState(searchParams.get("searchKey"));
-  
-const getNewToken = async () => {
-  console.log(localStorage.getItem("refreshToken"));
-  try {
-      const res = await axios.post(REFRESH_TOKEN_URL, {
-             "refresh": localStorage.getItem("refreshToken")
-                  })
-      const data = await res.data;
-console.log(data);
-const token = data.access;
-localStorage.setItem("accessToken", token);
-return token;
-  }
-  catch (e){
-    console.log(e);
-    toast.warn("Session Expired, Please sign in again!");
-    setTimeout(()=>{
-      navigate("/pages/login");
-    }, 2000);
-  }
 
-};
 
 
   const handleItemClick = (item) => {
@@ -68,11 +47,8 @@ return token;
   }
   //-----------------------------check if admin----------------------------------
   useEffect(() => {
-    fetch(CHECK_ADMIN_URL, {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-      }
-    })
+    fetch(CHECK_ADMIN_URL
+    )
       .then(response => response.json())
       .then(data => {
         if (data == false) {
@@ -99,7 +75,9 @@ return token;
     });
   };
 
+  
   const renderFilterList = () => {
+
     return filterList.map((filterText, i) => {
       return (
         <React.Fragment key={i}>
@@ -128,21 +106,22 @@ return token;
     };
 
   const [articles, setArticles] = useState([]);
-  const filteredArticles = articles.slice(0, limit);
+  const filteredArticles = articles?.slice(0, limit);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
   const [loading, setLoading] = useState(false);
 
     const getAllArticles = async (keyword) => {
-  
-      const token = await getNewToken();
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      if (localStorage.getItem("loggedin")){
+        headers.Authorization = "Bearer "+getToken()
+      }
         const res = await fetch(`${DATA_SEARCH_URL}`, {
           method: 'POST',
-          body: JSON.stringify({keyword: keyword, categories: checkedValues}),
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
-      'Content-Type': 'application/json'
-    }
+          body: JSON.stringify({keyword: keyword, categories: checkedValues, loggedin: localStorage.getItem("loggedin")}),
+    headers: headers
         });
         const getData = await res.json();
         setArticles(getData["Your data"]);
@@ -168,7 +147,7 @@ return token;
           setLoading={setLoading}
         />
         <span className="app_search-results_count text-[10px] md:text-[20px] md:ml-[30px] mt-[10px] font-[300]">
-          about {articles.length} results
+          about {articles?.length} results
         </span>
       </div>
       <ul
@@ -176,7 +155,7 @@ return token;
         // ref={filterListRef}
       >
          <li className={`cursor-pointer md:px-10 ${activeItem === "All" ? "active" : ""}` } onClick={() => handleItemClick("All")}>All</li>
-      <li className={`cursor-pointer md:px-10 ${activeItem === "Image" ? "active" : ""}`}  onClick={() => handleItemClick("Image")}>Image</li>
+      {/* <li className={`cursor-pointer md:px-10 ${activeItem === "Image" ? "active" : ""}`}  onClick={() => handleItemClick("Image")}>Image</li> */}
       <li className={`cursor-pointer md:px-10 ${activeItem === "Videos" ? "active" : ""}`} onClick={() => handleItemClick("Videos")}>Videos</li>
       <li className="cursor-pointer md:px-10">
       <label htmlFor="min-date" style={{fontSize: "22px"}}>Min Date:</label>
@@ -209,7 +188,7 @@ return token;
         <Filter handleCheckboxChange={handleCheckboxChange} checkedValues={checkedValues} categoryList={categoryList}/>
       </div>
       <div>
-        {articles.length == 0 ? (
+        {articles?.length == 0 ? (
           loading ? (
             <Box
               sx={{
@@ -236,7 +215,7 @@ return token;
       <div>
       <div className="flex flex-col items-center my-6">
     {
-        (limit <= articles.length)?
+        (limit <= articles?.length)?
      <Link className="main_btn mt-8 text-[15px] md:text-[25px] px-[85px] md:px-[150px]" onClick={incrementLimit}>Show More</Link>: <></>
     }
 </div>

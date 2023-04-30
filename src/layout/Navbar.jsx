@@ -19,9 +19,6 @@ const heartIcon = <FontAwesomeIcon icon={faHeart} />;
 
 const Navbar = () => {
   const [favs, setFavs] = useState(0);
-  const languageList = ["en", "fr"];
-  const [openLanguages, setOpenLanguages] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(languageList[0]);
   const langaugesIconRef = useRef(null);
 
 
@@ -29,12 +26,8 @@ const Navbar = () => {
     setFavs(localStorage.getItem("favs"));
   }, 2000);
 
-  const applyLangaugeOnClick = (e) => {
-    if (langaugesIconRef.current) {
-      setSelectedLanguage(e.target.textContent);
-      setOpenLanguages(false);
-    }
-  };
+
+  
 
   // Set Sidebar State
   const [openNavbar, setOpenNavbar] = useState(false);
@@ -54,35 +47,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="app_navbar-items flex justify-between items-center w-5/12 sm:w-5/12 lg:w-4/12 xl:w-3/12">
-        <div className="app_navbar-items_language cursor-pointer relative font-[200] w-2/8">
-          <div
-            className="app_navbar-items_language-icon flex justify-between"
-            onClick={() => setOpenLanguages(!openLanguages)}
-            ref={langaugesIconRef}
-          >
-            <span className="text-[15px] md:text-[30px]">{arrowDownIcon}</span>
-            <span className="ml-2 text-[15px] md:text-[30px]">
-              {selectedLanguage}
-            </span>
-          </div>
-          <ul
-            className={`px-2 absolute -left-1 w-12 md:w-20 text-[12px] md:text-[30px] rounded z-[24244] ${
-              openLanguages ? "top-100" : "-top-64"
-            }`}
-          >
-            {languageList.map((lang, i) => {
-              return (
-                <li
-                  className="cursor-pointer border-b-2"
-                  onClick={(e) => applyLangaugeOnClick(e)}
-                  key={i}
-                >
-                  {lang}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        
 
         {isLoggedIn() ? (
           <div className="app_navbar-items_favourites mr-2 cursor-pointer text-[25px] md:text-[42px] text-center flex items-center justify-end">
