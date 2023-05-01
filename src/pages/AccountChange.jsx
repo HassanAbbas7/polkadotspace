@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL, UPDATE_MYSELF_USER_URL, UPDATE_PASSWORD_URL } from "../commons/constant";
 import { toast } from "react-toastify";
 import { getUserData, getToken, setUserData } from "../auth";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import person from "../assets/images/person.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+
+const eyeIcon = <FontAwesomeIcon icon={faEye} size="xs" />;
+const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} size="xs" />;
 import axios from "axios";
 
 // const penIcon = <FontAwesomeIcon icon={faPen} />;
@@ -17,6 +21,8 @@ const AccountChange = () => {
 
   const [user, setUser] = useState({});
 
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const [visiblePassword2, setVisiblePassword2] = useState(false);
   const [first_name, setFirstname] = useState("");
   const [last_name, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -208,32 +214,44 @@ const AccountChange = () => {
         >
           <div className="flex flex-col md:flex-row justify-between">
 
-            <div className="w-full md:w-1/2 md:mr-[60px]">
-              <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
-                Old Password
-              </label>
-              <input
-                type="text"
-                name="last_name"
-                className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-                placeholder="old password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-              />
-            </div>
-            <div className="w-full md:w-1/2">
-              <label className="font-[300] mt-[20px] block text-[15px] text-left ml-8 mb-[10px]">
-                New Password
-              </label>
-              <input
-                type="text"
-                name="email"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-                placeholder="new password"
-              />
-            </div>
+          <div className="relative mt-[15px]">
+            <input
+              type={`${visiblePassword ? "text" : "password"}`}
+              name="password"
+              required
+              className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+              placeholder="Type your Password"
+              value={oldPassword}
+              onChange={(e)=>{setOldPassword(e.target.value)}}
+            />
+            <span
+              className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
+              onClick={() => setVisiblePassword(!visiblePassword)}
+            >
+              {visiblePassword ? eyeIcon : eyeSlashIcon}
+            </span>
+          </div>
+
+
+
+
+          <div className="relative mt-[15px]">
+            <input
+              type={`${visiblePassword2 ? "text" : "password"}`}
+              name="password"
+              required
+              className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+              placeholder="Type your Password"
+              value={newPassword}
+              onChange={(e)=>{setNewPassword(e.target.value)}}
+            />
+            <span
+              className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
+              onClick={() => setVisiblePassword2(!visiblePassword2)}
+            >
+              {visiblePassword2 ? eyeIcon : eyeSlashIcon}
+            </span>
+          </div>
           </div>
           
          
