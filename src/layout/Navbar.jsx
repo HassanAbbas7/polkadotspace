@@ -32,39 +32,7 @@ const Navbar = () => {
   // Set Sidebar State
   const [openNavbar, setOpenNavbar] = useState(false);
   const barsRefIcon = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const links = ["Home", "Favourites", "Blog", "Contact", "AccountChange"];
-
-
-  const renderLinks = () => {
-    return links.map((link, i) => {
-      return (
-        <li
-          className="block px-4 py-2 text-sm text-pink-700 hover:bg-pink-100 hover:text-pink-900"
-          key={i}
-          onClick={() => setIsOpen(false)}
-        >
-          {link === "Home" ? (
-            <Link
-              to="/"
-              className="p-2 flex justify-center cursor-pointer text-lg"
-            >
-              {link}
-            </Link>
-          ) : (
-            <Link
-              to={`/pages/${link.toLowerCase()}`}
-              className="p-2 flex justify-center cursor-pointer text-lg"
-            >
-              {link}
-            </Link>
-          )}
-        </li>
-      );
-    });
-  };
-
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
@@ -122,51 +90,19 @@ const Navbar = () => {
           ""
         )}
 
-        <div className="relative inline-block text-left">
-      <div>
-        <button
-          type="button"
-          className="inline-flex justify-center w-full rounded-md  border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-pink-600 hover:text-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-pink-500"
-          id="menu-button"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-expanded="true"
-          aria-haspopup="true"
+        <div
+          className="app_navbar-items_bars cursor-pointer text-right mx-1"
+          onClick={() => setOpenNavbar(!openNavbar)}
+          ref={barsRefIcon}
         >
           <span className="text-[25px] md:text-[40px]">{barsIcon}</span>
-          <svg
-            className="-mr-1 ml-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.707 14.707a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L10 12.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-
-      {isOpen && (
-        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
-        >
-          <div
-            className="py-1"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-            tabIndex="-2"
-          >
-            {renderLinks()}
-          </div>
         </div>
-      )}
-    </div>
       </div>
-
-      
+      <Sidebar
+        openNavbar={openNavbar}
+        setOpenNavbar={setOpenNavbar}
+        barsRefIcon={barsRefIcon}
+      />
     </div>
   );
 };
