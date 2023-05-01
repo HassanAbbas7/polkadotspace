@@ -133,9 +133,7 @@ const Sidebar = ({ openNavbar, setOpenNavbar, barsRefIcon }) => {
         <Link to="/">Polkadot Space</Link>
       </div>
       <ul className="sidebar_list w-52 mt-20">{renderLinks()}</ul>
-      {user?.is_superuser && (
-        <ul className="sidebar_list w-52 mt-20">{renderAdminLinks()}</ul>
-      )}
+      
       <ul className="app_sidebar-auth mt-10 text-[20px] text-center">
         <li className="mb-6">
           <button
