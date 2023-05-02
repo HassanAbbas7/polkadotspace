@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import {GET_USER_DATA, CHECK_ADMIN_URL} from "../commons/constant";
 import axios from "axios";
+import { getToken } from "../auth";
 
 
 
@@ -13,7 +14,7 @@ const setName = async () => {
 
       const response = await axios.get(GET_USER_DATA, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+          'Authorization': `Bearer ${getToken()}`,
           'Content-Type': 'application/json'
         }
               })
@@ -23,6 +24,7 @@ const setName = async () => {
           localStorage.setItem('last_name', response.data["Names"].last_name);
           localStorage.setItem('email', response.data["Names"].email);
           localStorage.setItem('favs', response.data["Favs"]);
+          localStorage.setItem('image', response.data["Names"].image);
   }
   else{
     alert(response.status)
@@ -80,3 +82,4 @@ const Main = ({ value, setValue, handleValue }) => {
 };
 
 export default Main;
+export {setName};

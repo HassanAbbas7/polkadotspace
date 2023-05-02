@@ -5,12 +5,12 @@ import { getUserData, getToken, setUserData } from "../auth";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import person from "../assets/images/person.jpg";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} size="xs" />;
 const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} size="xs" />;
+import {setName} from "../components/Main";
 import axios from "axios";
 
 // const penIcon = <FontAwesomeIcon icon={faPen} />;
@@ -45,16 +45,18 @@ const AccountChange = () => {
 
 
     try {
+      const formData = new FormData();
+formData.append('email', email);
+formData.append('first_name', first_name);
+formData.append('last_name', last_name);
+formData.append('image', selectedFile);
+
       const response = await axios.patch(
         UPDATE_MYSELF_USER_URL,
-        {
-          email: email,
-          first_name: first_name,
-          last_name: last_name
-        },
+        formData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            Authorization: `Bearer ${getToken()}`
           },
         }
       );
@@ -63,21 +65,24 @@ const AccountChange = () => {
           localStorage.setItem("first_name", first_name);
           localStorage.setItem("last_name", last_name);
           localStorage.setItem("email", email);
+          setName();
           toast.success("User Information updated successfully!");
       }
       else {
+        console.log(axios.error)
           toast.error("Something went wrong")
           toast.error(response.status)
       }
   } catch (error) {
+    console.log(error)
       toast.error(error)
   }
+  console.log(axios.error);
  
   };
 
   const updatePassword = async (e) => {
     e.preventDefault();
-
 
     try {
       const response = await axios.put(
@@ -88,7 +93,7 @@ const AccountChange = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            Authorization: `Bearer ${getToken()}`
           },
         }
       );
@@ -128,11 +133,7 @@ const AccountChange = () => {
           /> */}
           <img
             src={
-              isSelected
-                ? `${URL.createObjectURL(selectedFile)}`
-                : user?.profile?.profile_image
-                ? `${BASE_URL}${user.profile.profile_image}`
-                : person
+              (localStorage.getItem('image') !== 'null') ? `${BASE_URL}${localStorage.getItem("image")}` : person
             }
             alt="Person"
             className="rounded-full w-[100px] border-[0.5px]"
@@ -214,44 +215,48 @@ const AccountChange = () => {
         >
           <div className="flex flex-col md:flex-row justify-between">
 
-          <div className="relative mt-[15px]">
-            <input
-              type={`${visiblePassword ? "text" : "password"}`}
-              name="password"
-              required
-              className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-              placeholder="Type your Password"
-              value={oldPassword}
-              onChange={(e)=>{setOldPassword(e.target.value)}}
-            />
-            <span
-              className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
-              onClick={() => setVisiblePassword(!visiblePassword)}
-            >
-              {visiblePassword ? eyeIcon : eyeSlashIcon}
-            </span>
-          </div>
+          <div className="relative w-full md:w-1/2 md:mr-[60px]">
+  <input
+    type={`${visiblePassword ? "text" : "password"}`}
+    name="password"
+    required
+    className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+    placeholder="Type your Password"
+    value={oldPassword}
+    onChange={(e)=>{setOldPassword(e.target.value)}}
+  />
+  <span
+    className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
+    onClick={() => setVisiblePassword(!visiblePassword)}
+    style={{ zIndex: 1 }}
+  >
+    {visiblePassword ? eyeIcon : eyeSlashIcon}
+  </span>
+</div>
 
 
 
 
-          <div className="relative mt-[15px]">
-            <input
-              type={`${visiblePassword2 ? "text" : "password"}`}
-              name="password"
-              required
-              className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-              placeholder="Type your Password"
-              value={newPassword}
-              onChange={(e)=>{setNewPassword(e.target.value)}}
-            />
-            <span
-              className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
-              onClick={() => setVisiblePassword2(!visiblePassword2)}
-            >
-              {visiblePassword2 ? eyeIcon : eyeSlashIcon}
-            </span>
-          </div>
+
+          <div className="relative w-full md:w-1/2">
+  <input
+    type={`${visiblePassword2 ? "text" : "password"}`}
+    name="password"
+    required
+    className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
+    placeholder="Type your Password"
+    value={newPassword}
+    onChange={(e)=>{setNewPassword(e.target.value)}}
+  />
+  <span
+    className="absolute top-2 right-6 cursor-pointer form_eye text-[20px] md:text-[25px]"
+    onClick={() => setVisiblePassword2(!visiblePassword2)}
+    style={{ zIndex: 1 }}
+  >
+    {visiblePassword2 ? eyeIcon : eyeSlashIcon}
+  </span>
+</div>
+
           </div>
           
          
