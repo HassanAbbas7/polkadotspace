@@ -133,7 +133,8 @@ formData.append('image', selectedFile);
           /> */}
           <img
             src={
-              (localStorage.getItem('image') !== 'null') ? `${BASE_URL}${localStorage.getItem("image")}` : person
+              isSelected
+                ? `${URL.createObjectURL(selectedFile)}` : localStorage.getItem("image") ? `${BASE_URL}${localStorage.getItem("image")}` : person
             }
             alt="Person"
             className="rounded-full w-[100px] border-[0.5px]"
