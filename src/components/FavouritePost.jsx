@@ -42,12 +42,18 @@ const discordIcon = <FontAwesomeIcon icon={faDiscord} />;
 const facebookIcon = <FontAwesomeIcon icon={faFacebookF} />;
 const twitterIcon = <FontAwesomeIcon icon={faTwitter} />;
 
-const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArticles, articles }) => {
+const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArticles, articles, includeText }) => {
   if (dates){
     const isValidDate = (article.TimeStamp > dates[0]) && (article.TimeStamp < dates[1]);
     const datesAreNotNull = (dates[0] && dates[1]);
     if (!isValidDate && datesAreNotNull) return;
   }
+  if (includeText){
+    alert(includeText)
+    if (! article.Title.toLowerCase().includes(includeText.toLowerCase())) return;
+  }
+
+
   console.log(article);
   const [articleObj, setAritcleObj] = useState(article);
   const [showLikes, setShowLikes] = useState(false);

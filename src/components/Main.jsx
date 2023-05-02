@@ -9,9 +9,6 @@ import axios from "axios";
 
 
 const setName = async () => {
-
-
-
 //--------------------------get names and emails and stuff----------------------
 
       const response = await axios.get(GET_USER_DATA, {
@@ -37,7 +34,6 @@ const setName = async () => {
 const Main = ({ value, setValue, handleValue }) => {
   
   const [searchText, setSearchText] = useState("");
-
   //----------------------get names and emails and stuff------------------------
   useEffect(()=>{
     if (!localStorage.getItem('loggedIn')) setName();

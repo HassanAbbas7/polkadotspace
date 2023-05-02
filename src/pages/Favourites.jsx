@@ -79,7 +79,7 @@ const Favourites = () => {
   const [size, setSize] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  const [includeText, setIncludeText] = useState("");
 
 
 
@@ -109,6 +109,7 @@ const Favourites = () => {
     <div className="app_favourites">
       <div className="flex flex-col items-start">
         <SearchBar
+        setIncludeText={setIncludeText}
         />
         <span className="app_search-results_count text-[10px] md:text-[20px] md:ml-[30px] mt-[10px] font-[300]">
           about {articles?.length} results
@@ -155,7 +156,7 @@ const Favourites = () => {
         ) : (
           articles?.map((article, index) => (
             <div key={index}>
-              <FavouritePost article={article} activeItem={activeItem}/>
+              <FavouritePost article={article} activeItem={activeItem} includeText={includeText}/>
             </div>
           ))
         )}
