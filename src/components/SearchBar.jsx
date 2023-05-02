@@ -13,7 +13,9 @@ const SearchBar = ({ setSearchText }) => {
 
   const handleOnInputValue = (e) => {
     setSearchValue(e.target.value);
-    setSearchText(e.target.value);
+    setTimeout(function(){
+      setSearchText(e.target.value);
+   }, 1000);
   };
 
   // Render Delete Function In Search Page
