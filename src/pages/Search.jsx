@@ -35,7 +35,6 @@ const Search = ({ value, setValue, handleValue }) => {
   const [minDate, setMinDate] = useState();
   const [maxDate, setMaxDate] = useState();
   const [searchValue, setSearchValue] = useState(searchParams.get("searchKey"));
-  alert(searchValue);
 
 
   const handleItemClick = (item) => {
