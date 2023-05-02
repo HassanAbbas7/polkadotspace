@@ -35,7 +35,7 @@ const Search = ({ value, setValue, handleValue }) => {
   const [minDate, setMinDate] = useState();
   const [maxDate, setMaxDate] = useState();
   const [searchValue, setSearchValue] = useState(searchParams.get("searchKey"));
-
+  alert(searchValue);
 
 
   const handleItemClick = (item) => {
@@ -114,6 +114,7 @@ const Search = ({ value, setValue, handleValue }) => {
   const [loading, setLoading] = useState(false);
 
     const getAllArticles = async (keyword) => {
+      setArticles([]);
       const headers = {
         'Content-Type': 'application/json'
       }
