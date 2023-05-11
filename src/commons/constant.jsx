@@ -27,7 +27,7 @@ export const UPDATE_PROFILE_URL = `${BASE_URL}/auth/api/v1/user/update/me`;
 
 export const CREATE_ARTICLE_URL = `${BASE_URL}/common/api/v1/article/create`;
 export const GET_ALL_ARTICLE_URL = `${BASE_URL}/common/api/v1/article/all`;
-export const DATA_SEARCH_URL= `${BASE_URL}/test`;
+export const DATA_SEARCH_URL= `${BASE_URL}/data`;
 export const TRANSLATE_ARTICLE_URL = `${BASE_URL}/common/api/v1/article/translate/`;
 
 export const CREATE_TICKET_URL = `${BASE_URL}/common/api/v1/ticket/create`;
