@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SearchBar from "../components/SearchBar";
 import PostsPagination from "../components/PostsPagination";
 import Filter from "../components/Filter";
-import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, CHECK_ADMIN_URL } from "../commons/constant";
+import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, CHECK_ADMIN_URL, GET_CATEGORY_URL } from "../commons/constant";
 import FavouritePost from "../components/FavouritePost";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -22,11 +22,7 @@ const Search = ({ value, setValue, handleValue }) => {
   const [filterText, setFilterText] = useState("All");
   const [isAdmin, setIsAdmin] = useState(null);
   const filterList = ["All", "Videos", ""];
-  const categoryList = [
-    "BTC",
-    "Video BTC",
-    "Pictures BTC",
-  ]
+  const [categoryList, setCategoryList] = useState([]); 
   const [checkedValues, setCheckedValues] = useState([]);
   const filterListRef = useRef(null);
   const [searchParams] = useSearchParams();
@@ -44,6 +40,21 @@ const Search = ({ value, setValue, handleValue }) => {
   const incrementLimit = () =>{
     setLimit(limit+20);
   }
+
+  useEffect(()=>{
+    fetch(GET_CATEGORY_URL,
+    )
+      .then(response => response.json())
+      .then(data => {
+        setCategoryList([]);
+        var list = [];
+        data.map((item, i)=>{
+          list.push(item['name']);
+        })
+        setCategoryList(list);
+      })
+      .catch(error => console.error(error));
+  }, []);
   //-----------------------------check if admin----------------------------------
   useEffect(() => {
     const headers = {}

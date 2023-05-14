@@ -47,7 +47,7 @@ const Likes = ({ likesRef, showLikes, setShowLikes, id }) => {
         {GET_USERS_BY_ARTICLE_ID}
       </h1>
       <div>
-        {users.map((box, i) => {
+        {users?.map((box, i) => {
           return (
             <div
               className="app_likes-box p-2 pr-4 rounded-[50px] flex items-center justify-between mt-[10px]"

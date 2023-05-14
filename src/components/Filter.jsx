@@ -8,8 +8,10 @@ const Filter = ({handleCheckboxChange, checkedValues, categoryList}) => {
     
     
   const [openMenu, setOpenMenu] = useState(false);
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState('');
   const filterList = []
+  const [tick, isTicked] = useState([]);
   const [checks, setChecks] = useState("");
   const renderCategories = ()=>{
     return categoryList.map((check, i) => {
@@ -65,19 +67,42 @@ const Filter = ({handleCheckboxChange, checkedValues, categoryList}) => {
         </ul>
       </div>
       <div className="app_filter-checks text-[10px] md:text-[20px] font-[300] flex mt-[29px]">
-        <div className="w-1/2">
-         {renderCategories()}
+      <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center justify-between w-full px-4 py-2 text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:bg-pink-600"
+      >
+        Select Category
+        <svg
+          className={`w-4 h-4 ml-2 ${isOpen ? "transform rotate-180" : ""}`}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M6.293 6.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+        <div className="absolute mt-2 bg-white border border-gray-300 rounded shadow-lg z-999" style={{zIndex: 999, display: isOpen? '' : 'none'}} >
+          <div className="py-1">
+            {categoryList.map((item, i) => (
+              <div key={i} className="flex items-center px-4 py-2">
+                <input
+                  type="checkbox"
+                  className="mr-2 form-checkbox text-pink-500"
+                  value={item}
+                  onChange={handleCheckboxChange}
+                />
+                <label className="text-gray-700">{item}</label>
+              </div>
+            ))}
+          </div>
         </div>
+    </div>
         <div>
-          <div className="flex mt-[14px] items-center">
-            <input type="checkbox" className="mr-[5px]" />
-            <label>en</label>
-          </div>
-
-          <div className="flex mt-[14px] items-center">
-            <input type="checkbox" className="mr-[5px]" />
-            <label>ar</label>
-          </div>
         </div>
       </div>
     </div>
