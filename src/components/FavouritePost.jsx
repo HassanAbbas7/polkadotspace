@@ -363,8 +363,9 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
                 createOrUpdateFav();
               }}
               className={"fav_icon"}
-              onMouseEnter={() => setShowLikes(true)}
-              onMouseLeave={() => setShowLikes(false)}
+              //hover effect showing the number of users who hearted this post:
+              // onMouseEnter={() => setShowLikes(true)}
+              // onMouseLeave={() => setShowLikes(false)}
 
             >
               <a href={window.location.href} ref={heartRef} class={favAction?"clicked":""}>
@@ -411,10 +412,11 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
                 </p>
               </li>
             ) : (
-              <p className="text-[5px] text-left md:text-[15px] absolute top-full w-52">
+              
+            )} */}
+            <p className="text-[5px] text-left md:text-[15px] absolute top-full w-52">
                 {claps} clap(s)
               </p>
-            )} */}
             {window.location.href.includes("favourites") ? (
               <Likes
                 likesRef={likesRef}

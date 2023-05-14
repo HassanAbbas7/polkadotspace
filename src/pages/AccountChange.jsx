@@ -42,7 +42,7 @@ const AccountChange = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-
+ 
 
     try {
       const formData = new FormData();
@@ -134,7 +134,7 @@ formData.append('image', selectedFile);
           <img
             src={
               isSelected
-                ? `${URL.createObjectURL(selectedFile)}` : localStorage.getItem("image") ? `${BASE_URL}${localStorage.getItem("image")}` : person
+                ? `${URL.createObjectURL(selectedFile)}` : (localStorage.getItem("image")!=="null") ? `${BASE_URL}${localStorage.getItem("image")}` : person
             }
             alt="Person"
             className="rounded-full w-[100px] border-[0.5px]"

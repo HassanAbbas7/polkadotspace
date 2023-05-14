@@ -143,6 +143,7 @@ const Search = ({ value, setValue, handleValue }) => {
         <SearchBar
           value={value}
           setValue={setValue}
+          searchText={searchValue}
           setSearchText={setSearchValue}
           handleValue={handleValue}
           loading={loading}

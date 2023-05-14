@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useSearchParams, useEffect } from "react";
 import deleteMark from "../assets/images/deleteMark.svg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,8 @@ const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 const microphoneIcon = <FontAwesomeIcon icon={faMicrophone} />;
 
 // This Components Style Is Included In _search.scss
-const SearchBar = ({ setSearchText, setIncludeText }) => {
-  const [searchValue, setSearchValue] = useState("");
-
+const SearchBar = ({ setSearchText, setIncludeText, searchText }) => {
+  const [searchValue, setSearchValue] = useState(searchText);
   const handleOnInputValue = (e) => {
     setSearchValue(e.target.value);
     setSearchText(e.target.value);
