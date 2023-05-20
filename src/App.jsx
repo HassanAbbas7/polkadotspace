@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 // Pages
+import APIKeyRequestPage from "./pages/ApiRequest";
 import Search from "./pages/Search";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -59,6 +60,7 @@ const App = () => {
         </div>
         <Routes>
           <Route path="/" exact element={<Main />} />
+          <Route path="/pages/api/access" exact element={<APIKeyRequestPage/>} />
           <Route path="/pages/search" element={<Search />} />
           <Route path="/pages/login" element={<Login />} />
           <Route path="/pages/register" element={<Register />} />
