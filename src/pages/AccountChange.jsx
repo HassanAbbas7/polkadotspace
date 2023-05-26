@@ -105,10 +105,9 @@ formData.append('image', selectedFile);
       }
       else {
           toast.error("Something went wrong")
-          toast.error(response.status)
       }
   } catch (error) {
-      toast.error(error)
+      toast.error("Wrong Password, try again!")
   }
  
   };

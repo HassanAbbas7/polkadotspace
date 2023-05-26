@@ -17,12 +17,11 @@ export const setToken = (token) => {
 
 
 const getNewToken = async () => {
-    console.log(localStorage.getItem("refreshToken"));
     try {
         const res = await axios.post(REFRESH_TOKEN_URL, {
                "refresh": localStorage.getItem("refreshToken")
                     })
-        const data = await res.data;
+  const data = await res.data;
   console.log(data);
   const token = data.access;
   localStorage.setItem("accessToken", token);

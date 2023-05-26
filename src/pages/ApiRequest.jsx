@@ -6,17 +6,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import clipboardCopy from 'clipboard-copy';
 import { toast } from "react-toastify";
-
+ 
 
 const APIKeyRequestPage = () => {
+    
     const [apiKey, setApiKey] = useState('');
 
+
+    //-------------------------------check if already got the key-------------------------------
     useEffect(()=>{
         if (localStorage.getItem("apiKey") != "null"){
             setApiKey(localStorage.getItem("apiKey"));
         }
     })
+    //````````````````````````````````check if already got the key END````````````````````````````
 
+    //---------------------------------Get Api Key Logic----------------------------------------
   const handleRequestAPIKey = () => {
         axios.get(GET_API_KEY_USER, {
             headers: {
@@ -31,7 +36,9 @@ const APIKeyRequestPage = () => {
         console.error(error);
     });
   };
+//``````````````````````````````Get Api Key Logic END````````````````````````````````````````````
 
+//---------------------------------Delete Api Key Logic-----------------------------------------
   const handleDeleteAPIKey = () => {
     axios.delete(GET_API_KEY_USER, {
         headers: {
@@ -51,14 +58,21 @@ const APIKeyRequestPage = () => {
         .catch(function (error) {
           console.error(error);
         });
-
-
   };
+  //``````````````````````````````````Delete Api Key Logic END``````````````````````````````````
+
+
+
+
+
+
+  //---------------------------------In page functions----------------------------------------
 
   const handleCopy = () => {
     clipboardCopy(apiKey);
     toast.success("api key copied!");
   };
+  //```````````````````````````````````In page functions END```````````````````````````````````
 
 
   return (
