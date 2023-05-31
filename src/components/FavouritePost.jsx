@@ -83,7 +83,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
             activeItem === "All" ? "mr-[0px] mb-[0px]" : ""
           } lg:mr-[43px] text-[15px] md:text-[20px] mb-[15px]`}
         >
-          <a href="/">{icon}</a>
+          <a target="_blank" href={(i===3 && articleObj?.TwitterInfo?.tweetId) ? "https://twitter.com/anyuser/status/"+articleObj?.TwitterInfo?.tweetId : (i==1 && articleObj?.DiscordInfo != "null") ? articleObj?.DiscordInfo : "/"}>{icon}</a>
         </li>
       );
     });
