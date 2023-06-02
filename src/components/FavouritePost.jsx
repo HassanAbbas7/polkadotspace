@@ -309,7 +309,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 
 
             (admin && editing)? (
-            <textarea id="txtid" name="txtname" rows="4" cols="50" maxlength="200" onChange={(e)=>{setDesc(e.target.value)}}>
+            <textarea id="txtid" name="txtname" rows="4" cols="50" onChange={(e)=>{setDesc(e.target.value)}}>
         {desc}
 </textarea>
             ) :(<p

@@ -20,6 +20,7 @@ import Main from "./components/Main";
 import Admin from "./admin/Admin";
 import ForgotPassword from "./pages/ForgotPassword";
 import HandlePassChange from "./pages/HandlePassChange";
+import Requests from "./components/Requests";
 // Admin Pages
 import Users from "./admin/Users";
 import Websites from "./admin/Websites";
@@ -61,6 +62,7 @@ const App = () => {
         <Routes>
           <Route path="/" exact element={<Main />} />
           <Route path="/pages/api/access" exact element={<APIKeyRequestPage/>} />
+          <Route path="/pages/request" element={<Requests/>}/>
           <Route path="/pages/search" element={<Search />} />
           <Route path="/pages/login" element={<Login />} />
           <Route path="/pages/register" element={<Register />} />
