@@ -18,7 +18,7 @@ const Admin = () => {
 //-----------------------------constants and vars-----------------------
 
 
-    const [isAdmin, setIsAdmin] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [categories, setCategories] = useState([]);
     const [addCategory, setAddCategory] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -39,7 +39,7 @@ const Admin = () => {
           if (data == false) {
             setIsAdmin(false);
           }
-          else {
+          else if (data==true) {
             setIsAdmin(true);
           }
         })
@@ -81,7 +81,6 @@ const Admin = () => {
     }
   }
 //-------------------------keyword add function-----------------------------------
-
 const addKeyword = async (event) => {
   if (!(keyword || category)){
     alert("fill out all the fields!");
@@ -113,7 +112,8 @@ const addKeyword = async (event) => {
     <>
     {isAdmin === null ? (
       <p>Loading...</p>
-    ) : isAdmin ? (
+    ) : (isAdmin === true) ? (
+      
       <div className="app_favourites">
       <h1 className="text-center text-[30px] md:text-[70px] font-[700]">
         Ad<span>min</span>

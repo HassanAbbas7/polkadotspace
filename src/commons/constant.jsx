@@ -22,6 +22,7 @@ export const DELETE_DATA_URL = `${BASE_URL}/delete_data/`
 export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password/`
 export const PASSWORD_RESET_TOKEN = `${BASE_URL}/reset-password`
 export const RESET_PASSWORD_URL = `${BASE_URL}/reset-password/confirm`
+export const TICKET_SUBMIT_URL = `${BASE_URL}/submit_ticket`
 
 export const GET_MY_PROFILE_URL = `${BASE_URL}/auth/api/v1/profile/me`;
 export const UPDATE_PROFILE_URL = `${BASE_URL}/auth/api/v1/user/update/me`;

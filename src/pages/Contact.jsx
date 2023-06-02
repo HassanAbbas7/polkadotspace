@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
-import { CREATE_TICKET_URL } from "../commons/constant";
+import { TICKET_SUBMIT_URL } from "../commons/constant";
 import { toast } from "react-toastify";
 const discordIcon = <FontAwesomeIcon icon={faDiscord} size="lg" />;
 const atSignIcon = <FontAwesomeIcon icon={faAt} size="lg" />;
@@ -20,7 +20,7 @@ const Contact = () => {
     const data = { name, email, detail };
     console.log(`body: `, data);
 
-    fetch(`${CREATE_TICKET_URL}`, {
+    fetch(`${TICKET_SUBMIT_URL}`, {
       method: "POST",
       headers: {
         // "Accept": "application/json text/plain",
@@ -63,6 +63,7 @@ const Contact = () => {
               type="email"
               name="email"
               required
+              defaultValue={localStorage.getItem("email")}
               className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400] my-6"
               placeholder="Email"
             />
@@ -70,7 +71,7 @@ const Contact = () => {
               name="detail"
               required
               className="w-full border-2 rounded-[30px] py-3 indent-6 font-[400] text-[20px] h-[150px]"
-              placeholder="Ticket"
+              placeholder="Support message"
             ></textarea>
             <div className="flex justify-between items-center">
               <button

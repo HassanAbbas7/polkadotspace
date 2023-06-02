@@ -68,7 +68,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
   const likesRef = useRef(null);
   const heartRef = useRef(null);
   const [render, setRender] = useState(true);
-
+ 
   const [title, setTitle] = useState(articleObj?.Title);
   const [link, setLink] = useState(articleObj?.URL);
   const [desc, setDesc] = useState(articleObj.Description);
@@ -126,14 +126,15 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
     .then(response => {
       if (response.status === 200){
         toast.success("Edited successfully!");
+        articleObj.Title = title;
+        articleObj.Description = desc;
+        articleObj.URL = link;
+        
         setEditing(false);
-      }
-      else {
-        toast.error("something went wrong!")
       }
     })
     .catch(error => {
-      console.log(error);
+      toast.error("Something went wrong!")
     });
   }
 
@@ -221,7 +222,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
             }`}
           >
             <span className="text-[10px] md:text-[18px]">
-              {new Date(article.TimeStamp).toLocaleDateString()} | {new Date(article.TimeStamp).toLocaleTimeString()}
+              Discovered: {new Date(article.TimeStamp).toLocaleDateString()} | {new Date(article.TimeStamp).toLocaleTimeString()}
             </span>
             {/* <span className="text-[10px] md:text-[18px]">20:54pm</span> */}
           </p>
@@ -251,7 +252,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
 )}
 
             <div
-              className={`text-[12px] md:text-[25px] my-2 text-ellipsis w-64 whitespace-nowrap overflow-hidden ${
+              className={`text-[12px] md:text-[25px] my-2 text-ellipsis w-164 whitespace-nowrap overflow-hidden ${
                 activeItem === "All" ? "pl-3" : "pl-0"
               }`}
             >
