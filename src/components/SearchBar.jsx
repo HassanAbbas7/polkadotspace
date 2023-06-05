@@ -8,15 +8,19 @@ const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 const microphoneIcon = <FontAwesomeIcon icon={faMicrophone} />;
 
 // This Components Style Is Included In _search.scss
-const SearchBar = ({ setSearchText, setIncludeText, searchText }) => {
+const SearchBar = ({ setSearchText, setIncludeText, searchText, fromFavs }) => {
   const [searchValue, setSearchValue] = useState(searchText);
   const handleOnInputValue = (e) => {
     setSearchValue(e.target.value);
-    setSearchText(e.target.value);
-    setIncludeText(e.target.value);
-    setTimeout(function(){
-      setSearchText(e.target.value);
-   }, 2000);
+    // setSearchText(e.target.value);
+    if (fromFavs){
+      setIncludeText(e.target.value);
+    }
+    else{
+      setTimeout(function(){
+        setSearchText(e.target.value);
+     }, 2000);
+    }
   };
 
   // Render Delete Function In Search Page

@@ -49,7 +49,6 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
     if (!isValidDate && datesAreNotNull) return;
   }
   if (includeText){
-    alert(includeText)
     if (! article.Title.toLowerCase().includes(includeText.toLowerCase())) return;
   }
 

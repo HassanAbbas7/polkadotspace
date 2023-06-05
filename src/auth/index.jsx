@@ -1,5 +1,10 @@
 import axios from 'axios';
 import {REFRESH_TOKEN_URL} from "../commons/constant";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+
+
+
 
 export const isLoggedIn = () => {
     const token = localStorage.getItem('loggedin');
@@ -26,9 +31,11 @@ const getNewToken = async () => {
   const token = data.access;
   localStorage.setItem("accessToken", token);
   return token;
-    }
+    } 
     catch (e){
         console.log(e)
+        toast.warn("Please log in again!")
+        window.location.href = "/pages/login"
     }
   
   };

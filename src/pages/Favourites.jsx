@@ -11,28 +11,6 @@ import axios from "axios";
 
 
 
-
-const getNewToken = async () => {
-  console.log(localStorage.getItem("refreshToken"));
-  try {
-      const res = await axios.post(REFRESH_TOKEN_URL, {
-             "refresh": localStorage.getItem("refreshToken")
-                  })
-      const data = await res.data;
-console.log(data);
-const token = data.access;
-localStorage.setItem("accessToken", token);
-return token;
-  }
-  catch (e){
-    console.log(e);
-    alert("please log in again!");
-      // window.location.href = '/login';
-  }
-
-};
-
-
 const Favourites = () => {
   // const [filterText, setFilterText] = useState("All");
   const [activeItem, setActiveItem] = useState("All")
@@ -82,7 +60,6 @@ const Favourites = () => {
   const [includeText, setIncludeText] = useState("");
 
 
-
   const getAllArticles = async () => {
   
     const token = await getNewToken();
@@ -110,6 +87,7 @@ const Favourites = () => {
       <div className="flex flex-col items-start">
         <SearchBar
         setIncludeText={setIncludeText}
+        fromFavs = {true}
         />
         <span className="app_search-results_count text-[10px] md:text-[20px] md:ml-[30px] mt-[10px] font-[300]">
           about {articles?.length} results
@@ -155,9 +133,12 @@ const Favourites = () => {
           )
         ) : (
           articles?.map((article, index) => (
+            (article.Title.toLowerCase().includes(includeText.toLowerCase()))?
             <div key={index}>
               <FavouritePost article={article} activeItem={activeItem} includeText={includeText}/>
             </div>
+            :
+            null
           ))
         )}
       </div>
