@@ -215,7 +215,7 @@ formData.append('image', selectedFile);
         >
           <div className="flex flex-col md:flex-row justify-between">
 
-          <div className="relative w-full md:w-1/2 md:mr-[60px]">
+          <div className="relative w-full md:w-1/2 md:mr-[60px] mb-[10px]">
   <input
     type={`${visiblePassword ? "text" : "password"}`}
     name="password"
@@ -244,7 +244,7 @@ formData.append('image', selectedFile);
     name="password"
     required
     className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-    placeholder="Type your Password"
+    placeholder="ReType your Password"
     value={newPassword}
     onChange={(e)=>{setNewPassword(e.target.value)}}
   />
