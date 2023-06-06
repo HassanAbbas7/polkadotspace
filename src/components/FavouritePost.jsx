@@ -42,18 +42,18 @@ const discordIcon = <FontAwesomeIcon icon={faDiscord} />;
 const facebookIcon = <FontAwesomeIcon icon={faFacebookF} />;
 const twitterIcon = <FontAwesomeIcon icon={faTwitter} />;
 
-const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArticles, articles, includeText }) => {
+const FavouritePost = ({ filterText, fromFav, article, activeItem, dates, admin, setArticles, articles, includeText, checkedValues }) => {
   if (dates){
     const isValidDate = (article.TimeStamp > dates[0]) && (article.TimeStamp < dates[1]);
     const datesAreNotNull = (dates[0] && dates[1]);
     if (!isValidDate && datesAreNotNull) return;
   }
-  if (includeText){
+  if (includeText || fromFav){
     if (! article.Title.toLowerCase().includes(includeText.toLowerCase())) return;
+    if (checkedValues!=[] && !checkedValues.includes(article.category[0].name)) return;
   }
 
 
-  console.log(article);
   const [articleObj, setAritcleObj] = useState(article);
   const [showLikes, setShowLikes] = useState(false);
   const [clap, setClap] = useState(article.Claps);
@@ -312,7 +312,7 @@ const FavouritePost = ({ filterText, article, activeItem, dates, admin, setArtic
         {desc}
 </textarea>
             ) :(<p
-            className={`text-[10px] md:text-[16px] font-[400] w-6/6 break-all h-[70px] overflow-hidden`}
+            className={`text-[10px] md:text-[16px] font-[400] w-6/6 h-[70px] overflow-hidden`}
           >
             {articleObj?.Description}
           </p>)

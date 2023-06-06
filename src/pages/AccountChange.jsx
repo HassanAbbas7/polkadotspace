@@ -49,7 +49,9 @@ const AccountChange = () => {
 formData.append('email', email);
 formData.append('first_name', first_name);
 formData.append('last_name', last_name);
-formData.append('image', selectedFile);
+if (selectedFile){
+  formData.append('image', selectedFile);
+}
 
       const response = await axios.patch(
         UPDATE_MYSELF_USER_URL,
@@ -221,7 +223,7 @@ formData.append('image', selectedFile);
     name="password"
     required
     className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-    placeholder="Type your Password"
+    placeholder="Type your current Password"
     value={oldPassword}
     onChange={(e)=>{setOldPassword(e.target.value)}}
   />
@@ -244,7 +246,7 @@ formData.append('image', selectedFile);
     name="password"
     required
     className="w-full border-2 rounded-[46px] py-3 indent-6 font-[400]"
-    placeholder="ReType your Password"
+    placeholder="Type your new Password"
     value={newPassword}
     onChange={(e)=>{setNewPassword(e.target.value)}}
   />

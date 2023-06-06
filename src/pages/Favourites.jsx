@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, GET_FAV_ARTICLES } from "../commons/constant";
+import { DATA_SEARCH_URL, REFRESH_TOKEN_URL, GET_FAV_ARTICLES, GET_CATEGORY_URL } from "../commons/constant";
 
 import SearchBar from "../components/SearchBar";
 import FavouritePost from "../components/FavouritePost";
@@ -7,28 +7,44 @@ import PostsPagination from "../components/PostsPagination";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-
-
+import { getToken } from "../auth";
+import Filter from "../components/Filter";
 
 
 const Favourites = () => {
-  // const [filterText, setFilterText] = useState("All");
   const [activeItem, setActiveItem] = useState("All")
-  // Adding Active Class Link To The Filter
   const filterList = ["All", "Image", "Videos", "Articles", ""];
   const filterListRef = useRef(null);
+  const [checkedValues, setCheckedValues] = useState([]);
+  const [categoryList, setCategoryList] = useState([]); 
 
-  // const addActiveClass = (e) => {
-  //   const filterListChildren = Array.from(filterListRef.current.children);
-  //   filterListChildren.forEach((child) => {
-  //     if (!child.classList.contains("active")) {
-  //       e.target.classList.add("active");
-  //       setFilterText(e.target.textContent);
-  //     } else {
-  //       child.classList.remove("active");
-  //     }
-  //   });
-  // };
+
+  useEffect(()=>{
+    fetch(GET_CATEGORY_URL,
+    )
+      .then(response => response.json())
+      .then(data => {
+        setCategoryList([]);
+        var list = [];
+        data.map((item, i)=>{
+          list.push(item['name']);
+        })
+        setCategoryList(list);
+      })
+      .catch(error => console.error(error));
+  }, []);
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      setCheckedValues([...checkedValues, value]);
+    } else {
+      setCheckedValues(checkedValues.filter((v) => v !== value));
+    }
+  };
+
 
   const handleItemClick = (item) => {
     setActiveItem(item);
@@ -50,7 +66,7 @@ const Favourites = () => {
   //       </React.Fragment>
   //     );
   //   });
-  // };
+  // }; 
 
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
@@ -58,15 +74,14 @@ const Favourites = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [includeText, setIncludeText] = useState("");
-
+ 
 
   const getAllArticles = async () => {
   
-    const token = await getNewToken();
       const res = await fetch(`${GET_FAV_ARTICLES}`, {
         method: 'GET',
   headers: {
-    'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+    'Authorization': `Bearer ${getToken()}`,
     'Content-Type': 'application/json'
   }
       });
@@ -107,6 +122,9 @@ const Favourites = () => {
 
       </ul>
 
+      <div>
+        <Filter handleCheckboxChange={handleCheckboxChange} checkedValues={checkedValues} categoryList={categoryList}/>
+      </div>
       {/* <div>
         {articles?.map((article, index) => (
           <div key={index}>
@@ -135,7 +153,7 @@ const Favourites = () => {
           articles?.map((article, index) => (
             (article.Title.toLowerCase().includes(includeText.toLowerCase()))?
             <div key={index}>
-              <FavouritePost article={article} activeItem={activeItem} includeText={includeText}/>
+              <FavouritePost article={article} fromFav={true} activeItem={activeItem} includeText={includeText} checkedValues={checkedValues}/>
             </div>
             :
             null

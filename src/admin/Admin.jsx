@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import React, { useRef, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import axios from "axios";
-
+import { getToken } from "../auth";
 
 
 
@@ -18,7 +18,7 @@ const Admin = () => {
 //-----------------------------constants and vars-----------------------
 
 
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(null);
     const [categories, setCategories] = useState([]);
     const [addCategory, setAddCategory] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -31,7 +31,7 @@ const Admin = () => {
     useEffect(() => {
       fetch(CHECK_ADMIN_URL, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+          "Authorization": `Bearer ${getToken()}`
         }
       })
         .then(response => response.json())
