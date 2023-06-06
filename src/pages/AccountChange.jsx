@@ -58,7 +58,7 @@ if (selectedFile){
         formData,
         {
           headers: {
-            Authorization: `Bearer ${getToken()}`
+            Authorization: `Bearer ${await getToken()}`
           },
         }
       );
@@ -95,7 +95,7 @@ if (selectedFile){
         },
         {
           headers: {
-            Authorization: `Bearer ${getToken()}`
+            Authorization: `Bearer ${await getToken()}`
           },
         }
       );

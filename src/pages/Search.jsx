@@ -57,24 +57,29 @@ const Search = ({ value, setValue, handleValue }) => {
   }, []);
   //-----------------------------check if admin----------------------------------
   useEffect(() => {
-    const headers = {}
-    if (localStorage.getItem("loggedin")){
-      headers.Authorization = "Bearer "+getToken()
-    }
-    fetch(CHECK_ADMIN_URL,
-      {headers: headers}
-    )
-      .then(response => response.json())
-      .then(data => {
-        if (data == false) {
-          setIsAdmin(false);
+    const fetchData = async () => {
+      try {
+        const headers = {};
+        if (localStorage.getItem("loggedin")) {
+          headers.Authorization = "Bearer " + await getToken();
         }
-        else {
+        const response = await fetch(CHECK_ADMIN_URL, { headers });
+        const data = await response.json();
+  
+        if (data === false) {
+          setIsAdmin(false);
+        } else {
           setIsAdmin(true);
         }
-      })
-      .catch(error => console.error(error));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
   }, []);
+
+
   const addActiveClass = (e) => {
     const filterListChildren = Array.from(filterListRef.current.children);
     filterListChildren.forEach((child) => {
@@ -129,7 +134,7 @@ const Search = ({ value, setValue, handleValue }) => {
         'Content-Type': 'application/json'
       }
       if (localStorage.getItem("loggedin")){
-        headers.Authorization = "Bearer "+getToken()
+        headers.Authorization = "Bearer "+ await getToken()
       }
         const res = await fetch(`${DATA_SEARCH_URL}`, {
           method: 'POST',

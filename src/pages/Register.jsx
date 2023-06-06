@@ -18,46 +18,7 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
   const navigate = useNavigate();
-
-  // const submitRegister = async (e) => {
-  //   e.preventDefault();
-  //   console.log(`register button clicked!`);
-  //   const first_name = e.target.first_name.value;
-  //   const last_name = e.target.last_name.value;
-  //   const email = e.target.email.value;
-  //   const password1 = e.target.password1.value;
-  //   const password2 = e.target.password2.value;
-  //   const data = { first_name, last_name, email, password: password1 };
-  //   console.log(`body: `, data);
-
-  //   if (password1 === password2) {
-  //     fetch(`${REGISTER_URL}`, {
-  //       method: "POST",
-  //       headers: {
-  //         // "Accept": "application/json text/plain",
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-  //       .then((res) => {
-  //         console.log(`register res: `, res);
-  //         if (res.status === 201) {
-  //           toast.success("Successfully registered!");
-  //           navigate("/pages/login");
-  //         }
-  //         return res.json();
-  //       })
-  //       .then((data) => {
-  //         console.log(`register data: `, data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(`register err: `, err);
-  //         toast.error("Registration failed!");
-  //       });
-  //   } else {
-  //     toast.warn("Password didn't match");
-  //   }
-  // };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

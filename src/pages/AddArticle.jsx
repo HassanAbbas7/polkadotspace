@@ -25,7 +25,7 @@ const AddArticle = () => {
       headers: {
         // "Accept": "application/json text/plain",
         // "Content-Type": "multipart/form-data; boundary=something",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
       body: formData,
     })

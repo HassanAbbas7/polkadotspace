@@ -45,9 +45,9 @@ export const setUserData = (obj) => {
 }
 
 
-export const getToken = () => {
-    getNewToken();
-    return localStorage.getItem('accessToken');
+export const getToken = async () => {
+    
+    return await getNewToken();
 }
 
 

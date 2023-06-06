@@ -50,7 +50,7 @@ const FavouritePost = ({ filterText, fromFav, article, activeItem, dates, admin,
   }
   if (includeText || fromFav){
     if (! article.Title.toLowerCase().includes(includeText.toLowerCase())) return;
-    if (checkedValues!=[] && !checkedValues.includes(article.category[0].name)) return;
+    if ((checkedValues.length !== 0 && !checkedValues.includes(article.category[0].name))) return;
   }
 
 

@@ -22,10 +22,10 @@ const APIKeyRequestPage = () => {
     //````````````````````````````````check if already got the key END````````````````````````````
 
     //---------------------------------Get Api Key Logic----------------------------------------
-  const handleRequestAPIKey = () => {
+  const handleRequestAPIKey = async () => {
         axios.get(GET_API_KEY_USER, {
             headers: {
-                Authorization: `Bearer ${getToken()}`
+                Authorization: `Bearer ${await getToken()}`
             }
         })
     .then(function (response) {

@@ -14,7 +14,7 @@ const setName = async () => {
 
       const response = await axios.get(GET_USER_DATA, {
         headers: {
-          'Authorization': `Bearer ${getToken()}`,
+          'Authorization': `Bearer ${await getToken()}`,
           'Content-Type': 'application/json'
         }
               })
