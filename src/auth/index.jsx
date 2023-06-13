@@ -22,7 +22,7 @@ export const setToken = (token) => {
 
 
 const getNewToken = async () => {
-    if (localStorage.getItem("accessToken").length  < 1) {return;}
+    if (localStorage.getItem("accessToken") == null) {return}
     try {
         const res = await axios.post(REFRESH_TOKEN_URL, {
                "refresh": localStorage.getItem("refreshToken")
