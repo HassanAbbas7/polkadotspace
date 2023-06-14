@@ -28,23 +28,47 @@ const Admin = () => {
   
 
 //--------------------------check if admin------------------------------
+    // useEffect(() => {
+    //   fetch(CHECK_ADMIN_URL, {
+    //     headers: {
+    //       "Authorization": `Bearer ${getToken()}`
+    //     }
+    //   })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       if (data == false) {
+    //         setIsAdmin(false);
+    //       }
+    //       else if (data==true) {
+    //         setIsAdmin(true);
+    //       }
+    //     })
+    //     .catch(error => console.error(error));
+    // }, []);
     useEffect(() => {
-      fetch(CHECK_ADMIN_URL, {
-        headers: {
-          "Authorization": `Bearer ${getToken()}`
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data == false) {
+      const fetchData = async () => {
+        try {
+          const token = await getToken();
+          const response = await fetch(CHECK_ADMIN_URL, {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          const data = await response.json();
+    
+          if (data === false) {
             setIsAdmin(false);
-          }
-          else if (data==true) {
+          } else if (data === true) {
             setIsAdmin(true);
           }
-        })
-        .catch(error => console.error(error));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchData();
     }, []);
+    
 //----------------------------get data-----------------------------------
 
 
